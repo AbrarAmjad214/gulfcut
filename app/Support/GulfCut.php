@@ -204,7 +204,9 @@ class GulfCut
 
     public static function canonical(?string $path = null): string
     {
-        $path = $path ?? '/'.ltrim(request()->path(), '/');
+        $path = $path ?? request()->path();
+        $path = parse_url($path, PHP_URL_PATH) ?: $path;
+        $path = '/'.ltrim($path, '/');
         if ($path === '/' || $path === '') {
             return self::SITE.'/';
         }

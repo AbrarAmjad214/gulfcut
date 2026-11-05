@@ -11,7 +11,9 @@ Route::post('/contact-us', [SiteController::class, 'send'])->name('contact.send'
 Route::get('/thank-you', [SiteController::class, 'thanks'])->name('thanks');
 Route::get('/concrete-cutting-wall-saw-demolition-contractor', [SiteController::class, 'contractor'])->name('contractor');
 Route::permanentRedirect('/concrete-demolition', '/concrete-demolition-services-uae');
+Route::permanentRedirect('/concrete-demolition/', '/concrete-demolition-services-uae');
 Route::permanentRedirect('/core-cutting', '/core-cutting-services-uae');
+Route::permanentRedirect('/core-cutting/', '/core-cutting-services-uae');
 Route::get('/projects', [SiteController::class, 'projects'])->name('projects');
 Route::get('/projects/{slug}', [SiteController::class, 'project'])->name('projects.show');
 Route::get('/blog', [SiteController::class, 'blog'])->name('blog');

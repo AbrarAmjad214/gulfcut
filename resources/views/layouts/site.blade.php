@@ -25,12 +25,16 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{ $seoTitle }}">
     <meta name="twitter:description" content="{{ $seoDescription }}">
-    <meta name="twitter:image" content="{{ $shareImage }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:site" content="@gulfcut">
     @isset($published)
         <meta property="article:published_time" content="{{ $published }}">
     @endisset
     <link rel="icon" href="{{ $g::logo() }}">
-    <script type="application/ld+json">{!! $g::schema() !!}</script>
+    @if (request()->route()?->getName() === 'home')
+        <script type="application/ld+json">{!! $g::schema() !!}</script>
+    @endif
     @if (count($g::breadcrumbs()) > 1)
         <script type="application/ld+json">{!! $g::breadcrumbSchema() !!}</script>
     @endif
