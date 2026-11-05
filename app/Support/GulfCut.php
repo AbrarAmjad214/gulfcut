@@ -32,6 +32,19 @@ class GulfCut
             }
         }
 
+        return self::photo($name);
+    }
+
+    public static function photo(string $name): string
+    {
+        $name = basename(str_replace('\\', '/', $name));
+        $webp = preg_replace('/\.(jpe?g|png)$/i', '.webp', $name);
+        $original = public_path('images/'.$name);
+        $modern = public_path('images/'.$webp);
+        if (is_string($webp) && $webp !== $name && is_file($modern) && (! is_file($original) || filesize($modern) < filesize($original))) {
+            return asset('images/'.$webp);
+        }
+
         return asset('images/'.$name);
     }
 
@@ -48,6 +61,10 @@ class GulfCut
         }
 
         $path = '/'.trim($path, '/');
+        $path = [
+            '/core-cutting' => '/core-cutting-services-uae',
+            '/concrete-demolition' => '/concrete-demolition-services-uae',
+        ][$path] ?? $path;
 
         return $path === '/' ? route('home') : url($path);
     }
@@ -58,19 +75,71 @@ class GulfCut
         return [
             ['label' => 'Wall Saw Cutting', 'slug' => 'wall-saw-cutting'],
             ['label' => 'Floor Saw Cutting', 'slug' => 'floor-saw-cutting'],
-            ['label' => 'Core Cutting', 'slug' => 'core-cutting'],
-            ['label' => 'Concrete Scanning', 'slug' => 'concrete-scanning'],
+            ['label' => 'Core Cutting', 'slug' => 'core-cutting-services-uae'],
+            ['label' => 'GPR Concrete Scanning', 'slug' => 'concrete-scanning'],
             ['label' => 'Wire Saw Cutting', 'slug' => 'wire-saw-cutting'],
             ['label' => 'Concrete Slab 3d Scanning', 'slug' => 'concrete-slab-3d-scanning'],
             ['label' => 'Concrete Slab Core Cutting', 'slug' => 'concrete-slab-core-cutting'],
             ['label' => 'Concrete Staircase Demolition', 'slug' => 'concrete-staircase-demolition'],
             ['label' => 'Concrete Slab Demolition', 'slug' => 'concrete-slab-demolition'],
             ['label' => 'Concrete Wall Core Cutting', 'slug' => 'concrete-wall-core-cutting'],
-            ['label' => 'Concrete Demolition', 'slug' => 'concrete-demolition'],
             ['label' => 'Concrete Beam Cutting', 'slug' => 'concrete-beam-cutting'],
-            ['label' => 'Concrete Demolition Services in UAE', 'slug' => 'concrete-demolition-services-uae'],
-            ['label' => 'Core Cutting Services UAE', 'slug' => 'core-cutting-services-uae'],
+            ['label' => 'Demolition Services UAE', 'slug' => 'concrete-demolition-services-uae'],
             ['label' => 'Concrete Cutting Services UAE', 'slug' => 'concrete-cutting-services-uae'],
+        ];
+    }
+
+    /** @return array<int, array{sections: array<int, array{title: string, items: array<int, array{label: string, slug: string}>}>}> */
+    public static function megaMenu(): array
+    {
+        return [
+            [
+                'sections' => [
+                    [
+                        'title' => 'Cutting',
+                        'items' => [
+                            ['label' => 'Wall Saw Cutting', 'slug' => 'wall-saw-cutting'],
+                            ['label' => 'Floor Saw Cutting', 'slug' => 'floor-saw-cutting'],
+                            ['label' => 'Wire Saw Cutting', 'slug' => 'wire-saw-cutting'],
+                            ['label' => 'Concrete Beam Cutting', 'slug' => 'concrete-beam-cutting'],
+                            ['label' => 'Concrete Cutting Services UAE', 'slug' => 'concrete-cutting-services-uae'],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'sections' => [
+                    [
+                        'title' => 'Core drilling',
+                        'items' => [
+                            ['label' => 'Core Cutting', 'slug' => 'core-cutting-services-uae'],
+                            ['label' => 'Slab Core Cutting', 'slug' => 'concrete-slab-core-cutting'],
+                            ['label' => 'Wall Core Cutting', 'slug' => 'concrete-wall-core-cutting'],
+                            ['label' => 'Beam Core Cutting', 'slug' => 'concrete-beam-core-cutting'],
+                        ],
+                    ],
+                    [
+                        'title' => 'Scanning',
+                        'items' => [
+                            ['label' => 'GPR Scanning', 'slug' => 'concrete-scanning'],
+                            ['label' => 'Slab 3D Scanning', 'slug' => 'concrete-slab-3d-scanning'],
+                        ],
+                    ],
+                ],
+            ],
+            [
+                'sections' => [
+                    [
+                        'title' => 'Demolition',
+                        'items' => [
+                            ['label' => 'Staircase Demolition', 'slug' => 'concrete-staircase-demolition'],
+                            ['label' => 'Slab Demolition', 'slug' => 'concrete-slab-demolition'],
+                            ['label' => 'Demolition Services UAE', 'slug' => 'concrete-demolition-services-uae'],
+                            ['label' => 'Cutting & Demolition Contractor', 'slug' => 'concrete-cutting-wall-saw-demolition-contractor'],
+                        ],
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -78,16 +147,16 @@ class GulfCut
     public static function titles(): array
     {
         return [
-            'home' => 'Concrete Cutting Dubai & UAE | Gulf Cut 0505962816',
+            'home' => 'Concrete Cutting Company Dubai & UAE | Gulf Cut',
             'about-us' => 'About Gulf Cut | Concrete Cutting Company UAE',
-            'our-services' => 'Our Services | Gulf Cut UAE',
+            'our-services' => 'Concrete Cutting & Demolition Services | Gulf Cut',
             'contact-us' => 'Contact Gulf Cut | Concrete Cutting UAE',
             'wall-saw-cutting' => 'Concrete Wall Saw Cutting Services in UAE | Gulf Cut UAE',
             'floor-saw-cutting' => 'Floor Saw Cutting Services UAE | Gulf Cut',
             'core-cutting' => 'Diamond Core Drilling Services UAE | Gulf Cut',
-            'concrete-scanning' => 'Concrete Scanning Services UAE | GPR | Gulf Cut',
+            'concrete-scanning' => 'GPR Concrete Scanning Dubai & UAE | Gulf Cut',
             'wire-saw-cutting' => 'Wire Saw Cutting Services UAE | Gulf Cut',
-            'concrete-slab-3d-scanning' => 'Concrete Slab 3D Scanning UAE | Gulf Cut',
+            'concrete-slab-3d-scanning' => 'Slab 3D Scan Before Cutting UAE | Gulf Cut',
             'concrete-slab-core-cutting' => 'Concrete Slab Core Cutting Services UAE | Gulf Cut',
             'concrete-staircase-demolition' => 'Concrete Staircase Demolition UAE | Gulf Cut',
             'concrete-slab-demolition' => 'Concrete Slab Demolition Services UAE | Gulf Cut',
@@ -105,26 +174,26 @@ class GulfCut
     public static function descriptions(): array
     {
         return [
-            'home' => 'Gulf Cut provides concrete cutting, core drilling, wall sawing, wire sawing and demolition across Dubai and the UAE. Call 050 596 2816.',
-            'about-us' => 'About Gulf Cut, a concrete cutting and demolition company in the UAE. Wall saws, core drilling and controlled demolition for contractors.',
-            'our-services' => 'Concrete cutting services in the UAE: wall saw, floor saw, core drilling, wire saw, scanning and demolition by Gulf Cut.',
-            'contact-us' => 'Contact Gulf Cut in Al Quoz, Dubai for concrete cutting, core drilling and demolition across the UAE. Call +971 50 596 2816.',
-            'wall-saw-cutting' => 'Concrete wall saw cutting in Dubai and the UAE for doors, windows, lift openings and structural wall modifications. Gulf Cut.',
-            'floor-saw-cutting' => 'Floor saw cutting in the UAE for roads, warehouses, industrial floors, trenches and expansion joints. Gulf Cut.',
-            'core-cutting' => 'Diamond core drilling in the UAE for plumbing, electrical, HVAC and fire-protection openings in reinforced concrete. Gulf Cut.',
-            'concrete-scanning' => 'Concrete scanning in the UAE to locate rebar, conduits, pipes and post-tension cables before cutting or drilling. Gulf Cut.',
-            'wire-saw-cutting' => 'Wire saw cutting in the UAE for thick, heavily reinforced concrete, beams, bridges and large structures. Gulf Cut.',
-            'concrete-slab-3d-scanning' => 'Concrete slab 3D scanning in the UAE to map rebar and embedded services before core drilling or cutting. Gulf Cut.',
-            'concrete-slab-core-cutting' => 'Concrete slab core cutting in the UAE for plumbing, electrical and HVAC openings without damaging the surrounding slab. Gulf Cut.',
-            'concrete-staircase-demolition' => 'Concrete staircase demolition in the UAE with controlled removal and minimal disruption to nearby structures. Gulf Cut.',
-            'concrete-slab-demolition' => 'Concrete slab demolition in Dubai and the UAE for buildings, factories, warehouses and infrastructure. Gulf Cut.',
-            'concrete-wall-core-cutting' => 'Concrete wall core cutting in the UAE for ducts, pipes and utility openings in reinforced walls. Gulf Cut.',
-            'concrete-demolition' => 'Controlled concrete demolition in the UAE for slabs, walls, staircases, beams and columns. Gulf Cut.',
-            'concrete-beam-cutting' => 'Concrete beam cutting in the UAE for structural modifications, renovations and construction upgrades. Gulf Cut.',
-            'concrete-beam-core-cutting' => 'Concrete beam core cutting and diamond drilling in Dubai and the UAE, done with structural care. Gulf Cut.',
-            'concrete-demolition-services-uae' => 'Concrete demolition company in the UAE for residential, commercial and industrial structures. Safe, controlled removal by Gulf Cut.',
-            'core-cutting-services-uae' => 'Core cutting services across the UAE. Diamond drilling through slabs, walls and beams for MEP openings. Gulf Cut.',
-            'concrete-cutting-services-uae' => 'Concrete cutting services across Dubai, Abu Dhabi, Sharjah and the UAE. Wall saw, slab, floor and wire saw cutting by Gulf Cut.',
+            'home' => 'Gulf Cut cuts, core-drills and removes reinforced concrete across Dubai and the UAE. Wall saws, floor saws, wire saws and demolition from Al Quoz.',
+            'about-us' => 'Gulf Cut is a concrete cutting and demolition company in Al Quoz, Dubai. Wall saws, core drilling and controlled removal for contractors across the UAE.',
+            'our-services' => 'Concrete cutting services across the UAE: wall saw, floor saw, core drilling, wire saw, GPR scanning, slab 3D scanning and controlled demolition by Gulf Cut.',
+            'contact-us' => 'Contact Gulf Cut in Al Qouz Fourth, Al Quoz, Dubai for concrete cutting, core drilling and demolition across the UAE. Call +971 50 596 2816.',
+            'wall-saw-cutting' => 'Concrete wall saw cutting in Dubai and the UAE for doors, windows, lift openings and structural wall changes. Gulf Cut tracks the cut and leaves a clean edge.',
+            'floor-saw-cutting' => 'Floor saw cutting in Dubai and the UAE for warehouse slabs, trenches and joints. Gulf Cut leaves a straight edge and keeps the rest of the floor in use.',
+            'core-cutting' => 'Diamond core drilling in Dubai and the UAE for plumbing, electrical and HVAC openings. Gulf Cut drills the marked diameter and removes the core.',
+            'concrete-scanning' => 'GPR concrete scanning in Dubai and the UAE. Gulf Cut locates rebar, conduits, pipes and post-tension cables in the concrete before a saw or a core drill starts.',
+            'wire-saw-cutting' => 'Wire saw cutting in Dubai and the UAE for thick concrete and beams a track saw cannot reach. Gulf Cut loops the wire and keeps the cut on the line.',
+            'concrete-slab-3d-scanning' => '3D scanning of concrete slabs in Dubai and the UAE before cutting or drilling. Gulf Cut maps rebar and services in the slab, then marks the clear lines.',
+            'concrete-slab-core-cutting' => 'Concrete slab core cutting in Dubai and the UAE for plumbing, electrical and HVAC. Gulf Cut drills a round opening and leaves the surrounding slab intact.',
+            'concrete-staircase-demolition' => 'Concrete staircase demolition in Dubai and the UAE. Gulf Cut cuts the flight into pieces, carries them out, and leaves the slab and walls standing.',
+            'concrete-slab-demolition' => 'Concrete slab demolition in Dubai and the UAE for buildings, factories and warehouses. Gulf Cut saws the slab into panels and removes them safely.',
+            'concrete-wall-core-cutting' => 'Concrete wall core cutting in Dubai and the UAE. Diamond drilling for ducts, pipes and cables through reinforced walls, leaving a round opening.',
+            'concrete-demolition' => 'Controlled concrete demolition in Dubai and the UAE for slabs, walls, stairs and beams. Gulf Cut cuts the piece free, then removes it from site.',
+            'concrete-beam-cutting' => 'Concrete beam cutting in Dubai and the UAE for structural changes. Gulf Cut saws the beam on the marked line and keeps the rest of the frame in place.',
+            'concrete-beam-core-cutting' => 'Concrete beam core cutting in Dubai and the UAE. Diamond drilling through reinforced beams for pipes and cables, so the beam around the hole stays sound.',
+            'concrete-demolition-services-uae' => 'Concrete demolition company in the UAE for homes, commercial buildings and industrial sites. Gulf Cut cuts slabs, walls and stairs, then removes the concrete.',
+            'core-cutting-services-uae' => 'Core cutting services across Dubai and the UAE. Gulf Cut diamond-drills slabs, walls and beams for plumbing, electrical, HVAC and fire-protection openings.',
+            'concrete-cutting-services-uae' => 'Concrete cutting across Dubai, Abu Dhabi, Sharjah and the UAE. Gulf Cut runs wall saws, floor saws and wire saws for openings and structural changes.',
         ];
     }
 
@@ -153,20 +222,102 @@ class GulfCut
         return json_encode([
             '@context' => 'https://schema.org',
             '@type' => 'LocalBusiness',
+            '@id' => self::SITE.'/#business',
             'name' => 'Gulf Cut UAE',
             'url' => self::SITE.'/',
-            'image' => self::absoluteImage('cropped-logogulf-removebg-preview.png'),
+            'image' => self::absoluteImage('Concrete-wall-saw-cutting.jpeg'),
             'logo' => self::absoluteImage('cropped-logogulf-removebg-preview.png'),
             'telephone' => self::PHONE_TEL,
             'email' => self::EMAIL,
             'description' => self::description('home'),
             'address' => [
                 '@type' => 'PostalAddress',
-                'streetAddress' => 'Al Qouz Fourth, Al Quoz',
-                'addressLocality' => 'Dubai',
+                'streetAddress' => 'Al Qouz Fourth',
+                'addressLocality' => 'Al Quoz',
+                'addressRegion' => 'Dubai',
                 'addressCountry' => 'AE',
             ],
-            'areaServed' => ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain'],
+            'areaServed' => array_map(fn (string $city) => [
+                '@type' => 'City',
+                'name' => $city,
+            ], ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain']),
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /** @return array<int, array{name: string, url: string}> */
+    public static function breadcrumbs(): array
+    {
+        $route = request()->route();
+        $name = $route?->getName();
+        $items = [['name' => 'Home', 'url' => self::canonical('/')]];
+
+        $add = function (string $label, string $path) use (&$items): void {
+            $items[] = ['name' => $label, 'url' => self::canonical($path)];
+        };
+
+        switch ($name) {
+            case 'about':
+                $add('About', '/about-us');
+                break;
+            case 'services':
+                $add('Services', '/our-services');
+                break;
+            case 'contact':
+                $add('Contact', '/contact-us');
+                break;
+            case 'contractor':
+                $add('Services', '/our-services');
+                $add('Cutting and demolition contractor', '/concrete-cutting-wall-saw-demolition-contractor');
+                break;
+            case 'blog':
+                $add('Blog', '/blog');
+                break;
+            case 'blog.show':
+                $add('Blog', '/blog');
+                $post = Blog::find((string) $route->parameter('slug'));
+                if ($post) {
+                    $add($post['h1'], '/blog/'.$post['slug']);
+                }
+                break;
+            case 'projects':
+                $add('Projects', '/projects');
+                break;
+            case 'projects.show':
+                $add('Projects', '/projects');
+                $project = Projects::find((string) $route->parameter('slug'));
+                if ($project) {
+                    $add($project['h1'], '/projects/'.$project['slug']);
+                }
+                break;
+            case 'page':
+                $slug = (string) $route->parameter('slug');
+                $add('Services', '/our-services');
+                $label = preg_replace('/\s+\|\s+.*$/', '', self::titles()[$slug] ?? ucwords(str_replace('-', ' ', $slug)));
+                $add((string) $label, '/'.$slug);
+                break;
+            default:
+                return $items;
+        }
+
+        return $items;
+    }
+
+    public static function breadcrumbSchema(): string
+    {
+        $list = [];
+        foreach (self::breadcrumbs() as $i => $item) {
+            $list[] = [
+                '@type' => 'ListItem',
+                'position' => $i + 1,
+                'name' => $item['name'],
+                'item' => $item['url'],
+            ];
+        }
+
+        return json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => $list,
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
@@ -194,17 +345,16 @@ class GulfCut
     public static function directory(): array
     {
         return [
+            ['title' => 'Cutting & Demolition Contractor', 'text' => 'Concrete cutting, wall saw cutting and controlled demolition for contractors across Dubai and the UAE.', 'image' => 'Concrete-wall-saw-cutting.jpeg', 'slug' => 'concrete-cutting-wall-saw-demolition-contractor'],
             ['title' => 'Concrete Slab Core Cutting', 'text' => 'Precise concrete slab core cutting services for plumbing, electrical, HVAC, and structural applications. We create accurate openings without damaging surrounding structures.', 'image' => 'Concrete-slab-core-cutting.jpeg', 'slug' => 'concrete-slab-core-cutting'],
-            ['title' => 'Concrete Floor Demolition', 'text' => 'Efficient concrete floor demolition services for renovation, reconstruction, and industrial projects using modern demolition equipment.', 'image' => 'Concrete-floor-Demolition.jpeg', 'slug' => 'floor-saw-cutting'],
+            ['title' => 'Concrete Floor Demolition', 'text' => 'Efficient concrete floor demolition services for renovation, reconstruction, and industrial projects using modern demolition equipment.', 'image' => 'Concrete-floor-Demolition.jpeg', 'slug' => 'concrete-slab-demolition'],
             ['title' => 'Concrete Wire Saw Cutting', 'text' => 'Heavy-duty wire saw cutting solutions for large concrete structures, bridges, beams, and thick reinforced concrete sections.', 'image' => 'Concrete-wire-saw-cutting.jpeg', 'slug' => 'wire-saw-cutting'],
             ['title' => 'Concrete Wall Core Cutting', 'text' => 'Accurate wall core cutting solutions for utility installation, duct openings, and structural modifications.', 'image' => 'Concrete-wall-core-cutting.jpeg', 'slug' => 'concrete-wall-core-cutting'],
             ['title' => 'Concrete Beam Core Cutting', 'text' => 'Specialized beam core cutting services performed with precision to maintain structural integrity and project safety.', 'image' => 'Concrete-beam-core-cutting.jpeg', 'slug' => 'concrete-beam-core-cutting'],
             ['title' => 'Concrete Floor Cutting', 'text' => 'Advanced floor cutting services for expansion joints, trench cutting, repair works, and industrial flooring applications.', 'image' => 'Concrete-floor-cutting.jpeg', 'slug' => 'floor-saw-cutting'],
-            ['title' => 'Concrete Demolition Services', 'text' => 'Complete concrete demolition solutions for residential, commercial, and industrial structures using safe and efficient techniques.', 'image' => 'Concrete-Demolition-Services.jpeg', 'slug' => 'concrete-demolition'],
             ['title' => 'Concrete Beam Cutting', 'text' => 'Professional concrete beam cutting services for structural modifications, renovations, and construction upgrades.', 'image' => 'Concrete-beam-cutting.jpeg', 'slug' => 'concrete-beam-cutting'],
             ['title' => 'Concrete Slab 3D Scanning', 'text' => 'High-precision 3D concrete scanning services to detect hidden utilities, rebars, and embedded systems before cutting or drilling.', 'image' => 'Concrete-slab-3d-scanning.jpeg', 'slug' => 'concrete-slab-3d-scanning'],
             ['title' => 'Concrete Wall Saw Cutting', 'text' => 'Powerful wall saw cutting services for doors, windows, lift openings, and structural wall modifications with clean finishing.', 'image' => 'Concrete-wall-saw-cutting.jpeg', 'slug' => 'wall-saw-cutting'],
-            ['title' => 'Concrete Staircase Cutting', 'text' => 'Professional staircase cutting services for residential and commercial construction projects with clean and accurate results.', 'image' => 'Concrete-staircase-cutting.jpeg', 'slug' => 'concrete-staircase-demolition'],
             ['title' => 'Concrete Staircase Demolition', 'text' => 'Safe staircase demolition services with controlled removal techniques to protect nearby structures and ensure site safety.', 'image' => 'Concrete-staircase-Demolition.jpeg', 'slug' => 'concrete-staircase-demolition'],
             ['title' => 'Concrete Slab Demolition', 'text' => 'Reliable concrete slab demolition for buildings, factories, warehouses, and infrastructure projects with minimal disruption.', 'image' => 'Concrete-slab-Demolition.jpeg', 'slug' => 'concrete-slab-demolition'],
             ['title' => 'Concrete Cutting Services UAE', 'text' => 'Professional concrete cutting services across the UAE for residential, commercial, and industrial projects, using advanced diamond cutting equipment.', 'image' => 'Concrete-staircase-cutting.jpeg', 'slug' => 'concrete-cutting-services-uae'],
@@ -218,12 +368,12 @@ class GulfCut
     {
         return [
             ['n' => '01', 'title' => 'Concrete Cutting Services', 'text' => 'We provide precise concrete cutting solutions for walls, floors, slabs, beams, and structural modifications using advanced diamond cutting technology. Our methods ensure clean cuts, reduced vibration, and maximum safety.', 'slug' => 'concrete-cutting-services-uae', 'image' => 'Concrete-wall-saw-cutting.jpeg'],
-            ['n' => '02', 'title' => 'Core Cutting & Diamond Drilling', 'text' => 'Our core cutting services create accurate circular openings in reinforced concrete for plumbing, electrical, HVAC, and fire protection systems. Diamond core drilling delivers smooth, precise results with minimal dust and noise.', 'slug' => 'core-cutting', 'image' => 'Concrete-slab-core-cutting.jpeg'],
+            ['n' => '02', 'title' => 'Core Cutting & Diamond Drilling', 'text' => 'Our core cutting services create accurate circular openings in reinforced concrete for plumbing, electrical, HVAC, and fire protection systems. Diamond core drilling delivers smooth, precise results with minimal dust and noise.', 'slug' => 'core-cutting-services-uae', 'image' => 'Concrete-slab-core-cutting.jpeg'],
             ['n' => '03', 'title' => 'Wall Saw Cutting', 'text' => 'Wall saw cutting is ideal for creating door openings, windows, lift shafts, and structural modifications in reinforced concrete walls. Our advanced equipment guarantees accurate and controlled cutting.', 'slug' => 'wall-saw-cutting', 'image' => 'Concrete-wall-saw-cutting.jpeg'],
             ['n' => '04', 'title' => 'Slab Cutting', 'text' => 'We perform professional slab cutting for residential, commercial, and industrial construction projects. Our team safely cuts concrete floors, suspended slabs, bridge decks, and foundations.', 'slug' => 'concrete-slab-core-cutting', 'image' => 'Concrete-slab-Demolition.jpeg'],
             ['n' => '05', 'title' => 'Floor Saw Cutting', 'text' => 'Our floor sawing services are used for roads, warehouses, industrial floors, parking areas, and expansion joints. We ensure straight, accurate cuts for every application.', 'slug' => 'floor-saw-cutting', 'image' => 'Concrete-floor-cutting.jpeg'],
             ['n' => '06', 'title' => 'Wire Saw Cutting', 'text' => 'Wire saw cutting is the ideal solution for large or heavily reinforced concrete structures where conventional cutting methods are not suitable. This technique provides precision and flexibility for complex projects.', 'slug' => 'wire-saw-cutting', 'image' => 'Concrete-wire-saw-cutting.jpeg'],
-            ['n' => '07', 'title' => 'Concrete Demolition', 'text' => 'We specialize in controlled concrete demolition, including slabs, walls, staircases, beams, columns, and structural elements. Our team follows strict safety procedures while minimizing disruption to nearby structures.', 'slug' => 'concrete-demolition', 'image' => 'ConcreteDemolitionServices.jpeg'],
+            ['n' => '07', 'title' => 'Concrete Demolition', 'text' => 'We specialize in controlled concrete demolition, including slabs, walls, staircases, beams, columns, and structural elements. Our team follows strict safety procedures while minimizing disruption to nearby structures.', 'slug' => 'concrete-demolition-services-uae', 'image' => 'ConcreteDemolitionServices.jpeg'],
             ['n' => '08', 'title' => 'Concrete Scanning', 'text' => 'Before cutting or drilling, our concrete scanning services help locate embedded reinforcement, electrical conduits, pipes, and post-tension cables, reducing the risk of accidental damage.', 'slug' => 'concrete-scanning', 'image' => 'Concrete-slab-3d-scanning.jpeg'],
         ];
     }
@@ -383,10 +533,16 @@ class GulfCut
                     $items[] = ['title' => $line, 'text' => '', 'image' => ''];
                 }
             } elseif ($part['type'] === 'text') {
+                if (preg_match('/30%\s*off|claim now/i', (string) $part['text'])) {
+                    continue;
+                }
                 $notes[] = $part['text'];
             } elseif ($part['type'] === 'image') {
                 $images[] = self::img($part['src']);
             } elseif ($part['type'] === 'button') {
+                if (preg_match('/30%\s*off|claim now/i', (string) ($part['text'] ?? ''))) {
+                    continue;
+                }
                 $buttons[] = [
                     'title' => str_replace(['Demolation', 'Concreate'], ['Demolition', 'Concrete'], $part['text']),
                     'text' => '',
@@ -398,8 +554,8 @@ class GulfCut
 
         $kind = 'prose';
         $t = strtolower($title);
-        if (str_contains($t, '30%') || str_contains($t, 'project with us')) {
-            $kind = 'promo';
+        if (str_contains($t, '30%') || str_contains($t, 'project with us') || str_contains($t, 'claim now')) {
+            return null;
         } elseif (str_contains($t, 'more service') || ($buttons !== [] && $items === [] && $notes === [])) {
             $kind = 'related';
             $items = $buttons;

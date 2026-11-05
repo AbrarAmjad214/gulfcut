@@ -7,6 +7,7 @@
 @section('content')
 <section class="page-hero" style="--hero:url('{{ $page['hero']['image'] }}')">
     <div class="wrap hero-copy" data-animate>
+        @include('partials.crumbs')
         <p class="eyebrow">{{ $page['hero']['kicker'] }}</p>
         <h1>{{ $page['hero']['heading'] }}</h1>
         @if ($page['hero']['lead'])
@@ -38,15 +39,10 @@
             </div>
         </section>
     @elseif ($section['kind'] === 'cta')
-        <section class="cta-band">
-            <div class="wrap" data-animate>
-                <h2>{{ $section['title'] }}</h2>
-                @foreach ($section['notes'] as $note)
-                    <p>{{ $note }}</p>
-                @endforeach
-                <a class="btn" href="{{ route('contact') }}">Set Your Schedule</a>
-            </div>
-        </section>
+        @include('partials.closing', [
+            'heading' => $section['title'],
+            'lead' => $section['notes'][0] ?? 'Schedule a visit and Gulf Cut will quote the cut.',
+        ])
     @elseif ($section['kind'] === 'related')
         <section class="section section-paper">
             <div class="wrap">
@@ -87,7 +83,7 @@
                             @foreach ($section['items'] as $item)
                                 <article class="icon-card" data-animate>
                                     @if ($item['image'])
-                                        <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}">
+                                        <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" loading="lazy" decoding="async">
                                     @endif
                                     <h3>{{ $item['title'] }}</h3>
                                     @if ($item['text'])<p>{{ $item['text'] }}</p>@endif
@@ -113,11 +109,17 @@
                 </div>
                 @if ($section['images'])
                     <figure data-animate="right">
-                        <img class="rounded" src="{{ $section['images'][0] }}" alt="{{ $section['title'] ?: 'Gulf Cut concrete cutting' }}">
+                        <img class="rounded" src="{{ $section['images'][0] }}" alt="{{ $section['title'] ?: 'Gulf Cut concrete cutting' }}" loading="lazy" decoding="async">
                     </figure>
                 @endif
             </div>
         </section>
     @endif
 @endforeach
+
+@include('partials.lead-band', [
+    'heading' => 'Get a quote for this job',
+    'preset' => data_get(collect(\App\Support\GulfCut::menu())->firstWhere('slug', request()->route('slug')), 'label', ''),
+    'source' => url()->current(),
+])
 @endsection

@@ -3,7 +3,7 @@
 
 @section('content')
 <section class="hero">
-    <div class="hero-bg" style="background-image:url('{{ asset('images/Concrete-slab-3d-scanning.jpeg') }}')"></div>
+    <div class="hero-bg" style="background-image:url('{{ $g::photo('Concrete-slab-3d-scanning.jpeg') }}')"></div>
     <div class="wrap hero-grid">
         <div data-animate>
             <p class="eyebrow">We Are Solving</p>
@@ -17,7 +17,7 @@
             </div>
         </div>
         <figure class="hero-photo" data-animate="right">
-            <img src="{{ asset('images/ConcreteDemolitionServices.jpeg') }}" alt="Concrete demolition services">
+            <img src="{{ $g::photo('ConcreteDemolitionServices.jpeg') }}" alt="Concrete demolition services" width="800" height="550" decoding="async">
         </figure>
     </div>
 </section>
@@ -25,7 +25,7 @@
 <section class="section">
     <div class="wrap split">
         <figure data-animate>
-            <img class="rounded" src="{{ asset('images/Concrete-staircase-Demolition.jpeg') }}" alt="Concrete staircase demolition">
+            <img src="{{ $g::photo('Concrete-staircase-Demolition.jpeg') }}" alt="Concrete staircase demolition" loading="lazy" decoding="async">
         </figure>
         <div data-animate>
             <p class="eyebrow">Gulf Cut UAE</p>
@@ -52,7 +52,7 @@
         <div class="service-grid">
             @foreach ($g::featured() as $service)
                 <a class="service-card" href="{{ url($service['slug']) }}" data-animate style="--delay: {{ $loop->index * 60 }}ms">
-                    <img src="{{ asset('images/'.$service['image']) }}" alt="{{ $service['title'] }}">
+                    <img src="{{ $g::photo($service['image']) }}" alt="{{ $service['title'] }}" loading="lazy" decoding="async">
                     <div>
                         <span class="num">{{ $service['n'] }}</span>
                         <h3>{{ $service['title'] }}</h3>
@@ -153,7 +153,7 @@
             <a class="btn" href="tel:{{ $g::PHONE_TEL }}">Call Us {{ $g::PHONE_TEL }}</a>
         </div>
         <figure data-animate="right">
-            <img class="rounded" src="{{ asset('images/Concrete-wall-saw-cutting.jpeg') }}" alt="Wall saw cutting reinforced concrete">
+            <img class="rounded" src="{{ $g::photo('Concrete-wall-saw-cutting.jpeg') }}" alt="Wall saw cutting reinforced concrete" loading="lazy" decoding="async">
         </figure>
     </div>
 </section>
@@ -199,7 +199,7 @@
             <p>No matter the size or complexity of the project, Gulf Cut has the expertise and equipment to deliver precise and reliable results.</p>
         </div>
         <figure data-animate="right">
-            <img class="rounded" src="{{ asset('images/Concrete-floor-cutting.jpeg') }}" alt="Concrete floor cutting">
+            <img class="rounded" src="{{ $g::photo('Concrete-floor-cutting.jpeg') }}" alt="Concrete floor cutting" loading="lazy" decoding="async">
         </figure>
     </div>
 </section>
@@ -272,26 +272,60 @@
             <div class="stat-num"><span data-count="98">0</span>%</div>
             <p>Customer Satisfaction</p>
             <small>Trusted by homes and businesses alike.</small>
-            <img src="{{ asset('images/ConcreteDemolitionServices.jpeg') }}" alt="Concrete demolition on site">
+            <img src="{{ $g::photo('ConcreteDemolitionServices.jpeg') }}" alt="Concrete demolition on site" loading="lazy" decoding="async">
         </div>
     </div>
 </section>
 
-<section class="section contact-band" id="quote">
-    <div class="wrap split">
-        <div data-animate>
-            <p class="eyebrow">Anytime You Need</p>
-            <h2>Reach Us</h2>
-            <p>Looking for reliable concrete cutting, demolition, or core drilling services in the UAE? Contact Gulf Cut UAE today for professional support, fast site inspection, and competitive quotations.</p>
-            <ul class="reach">
-                <li><strong>Visit Us</strong> {{ $g::VISIT }}</li>
-                <li><strong>Call Us</strong> <a href="tel:{{ $g::PHONE_TEL }}">{{ $g::PHONE_TEL }}</a></li>
-                <li><strong>Message Us</strong> <a href="mailto:{{ $g::EMAIL }}">{{ $g::EMAIL }}</a></li>
-            </ul>
+<section class="section section-paper">
+    <div class="wrap">
+        <div class="section-head" data-animate>
+            <p class="eyebrow">Projects</p>
+            <h2>Recent cutting work</h2>
+            <p>Openings, cores, floor sawing and removals from Gulf Cut sites in Dubai and the UAE.</p>
         </div>
-        <div data-animate>
-            @include('partials.quote-form')
+        <div class="blog-grid">
+            @foreach (\App\Support\Projects::related('', 3) as $project)
+                <a class="blog-card" href="{{ url('projects/'.$project['slug']) }}" data-animate>
+                    <img src="{{ $g::photo($project['image']) }}" alt="{{ $project['image_alt'] }}" loading="lazy" decoding="async">
+                    <div>
+                        <p class="blog-meta">{{ $project['location'] }}</p>
+                        <h3>{{ $project['h1'] }}</h3>
+                        <p>{{ $project['excerpt'] }}</p>
+                        <span class="more">View project</span>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+        <p class="center"><a class="btn" href="{{ route('projects') }}">All projects</a></p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="wrap">
+        <div class="section-head" data-animate>
+            <p class="eyebrow">Blog</p>
+            <h2>Guides for Dubai sites</h2>
+            <p>How to choose concrete cutting, core drilling and demolition before the crew arrives.</p>
+        </div>
+        <div class="blog-grid">
+            @foreach (\App\Support\Blog::related('', 3) as $post)
+                <a class="blog-card" href="{{ url('blog/'.$post['slug']) }}" data-animate>
+                    <img src="{{ $g::photo($post['image']) }}" alt="{{ $post['image_alt'] }}" loading="lazy" decoding="async">
+                    <div>
+                        <p class="blog-meta">{{ $post['category'] }}</p>
+                        <h3>{{ $post['h1'] }}</h3>
+                        <p>{{ $post['excerpt'] }}</p>
+                        <span class="more">Read guide</span>
+                    </div>
+                </a>
+            @endforeach
         </div>
     </div>
 </section>
+
+@include('partials.lead-band', [
+    'heading' => 'Reach Us',
+    'lead' => 'Looking for concrete cutting, demolition, or core drilling in the UAE? Send the site details and Gulf Cut will call you back with a quotation.',
+])
 @endsection

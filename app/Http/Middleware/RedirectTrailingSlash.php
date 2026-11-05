@@ -10,6 +10,10 @@ class RedirectTrailingSlash
 {
     public function handle(Request $request, Closure $next): Response
     {
+        if (strcasecmp($request->getHost(), 'www.gulfcut.ae') === 0) {
+            return redirect()->away('https://gulfcut.ae'.$request->getRequestUri(), 301);
+        }
+
         $path = $request->getPathInfo();
 
         if ($request->isMethod('GET') && $path !== '/' && str_ends_with($path, '/')) {

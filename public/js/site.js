@@ -11,6 +11,21 @@ burger?.addEventListener('click', () => {
     burger.setAttribute('aria-expanded', open ? 'true' : 'false');
 });
 
+const drop = document.querySelector('.drop');
+const dropToggle = document.querySelector('.drop-toggle');
+dropToggle?.addEventListener('click', () => {
+    const open = drop.classList.toggle('open');
+    dropToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+
+nav?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+        if (!window.matchMedia('(max-width: 760px)').matches) return;
+        nav.classList.remove('open');
+        burger?.setAttribute('aria-expanded', 'false');
+    });
+});
+
 const quotes = [...document.querySelectorAll('#quotes .quote')];
 const dots = document.getElementById('quote-dots');
 let quoteIndex = 0;
@@ -20,6 +35,7 @@ if (quotes.length && dots) {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = index === 0 ? 'on' : '';
+        button.setAttribute('aria-label', 'Show testimonial ' + (index + 1));
         button.addEventListener('click', () => showQuote(index));
         dots.appendChild(button);
     });

@@ -4,6 +4,7 @@
 @section('content')
 <section class="page-hero" style="--hero:url('{{ $photo }}')">
     <div class="wrap" data-animate>
+        @include('partials.crumbs')
         <p class="eyebrow">About Us</p>
         <h1>Trusted Concrete Cutting &amp; Demolition Company in UAE</h1>
     </div>
@@ -40,7 +41,7 @@
                 ['Concrete-wire-saw-cutting.jpeg', 'Wire Saw Cutting', 'Controlled cutting for thick, heavily reinforced structures.'],
             ] as $shot)
                 <article data-animate>
-                    <img src="{{ asset('images/'.$shot[0]) }}" alt="{{ $shot[1] }}">
+                    <img src="{{ $g::photo($shot[0]) }}" alt="{{ $shot[1] }}" loading="lazy" decoding="async">
                     <h3>{{ $shot[1] }}</h3>
                     <p>{{ $shot[2] }}</p>
                 </article>
@@ -49,14 +50,7 @@
     </div>
 </section>
 
-<section class="cta-band">
-    <div class="wrap" data-animate>
-        <h2>Get Safe, Reliable Concrete Cutting Services Now!</h2>
-        <p>Schedule Your Consultation Today.</p>
-        <div class="btn-row">
-            <a class="btn" href="{{ route('contact') }}">Contact Us</a>
-            <a class="btn btn-ghost" href="tel:{{ $g::PHONE_TEL }}">{{ $g::PHONE_DISPLAY }}</a>
-        </div>
-    </div>
-</section>
+@include('partials.lead-band', ['heading' => 'Book a site visit'])
+
+@include('partials.closing')
 @endsection
