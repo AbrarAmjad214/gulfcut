@@ -557,7 +557,9 @@ figure { margin: 0; }
 .footer-head { font-family: "Inter Tight", Inter, sans-serif; font-weight: 700; font-size: 1.15rem; color: #fff; margin: 0 0 .6rem; letter-spacing: -.02em; }
 .site-footer a { display: block; color: var(--on-dark); text-decoration: none; margin: .3rem 0; }
 .site-footer p { color: #b7c3ce; }
-.footer-copy { border-top: 1px solid rgba(255,255,255,.08); margin-top: 1.5rem; padding: .9rem 0; font-size: .85rem; }
+.footer-copy { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 1.5rem; border-top: 1px solid rgba(255,255,255,.08); margin-top: 1.5rem; padding: .9rem 0; font-size: .85rem; }
+.site-footer .footer-credit a { display: inline; margin: 0; color: #fff; font-weight: 600; text-decoration: underline; text-decoration-color: rgba(213, 220, 227, .4); text-underline-offset: 3px; }
+.site-footer .footer-credit a:hover { color: var(--sand); }
 .page-hero.blog-hero { min-height: 420px; padding: 8.5rem 0 3rem; }
 .page-hero.blog-hero .eyebrow { margin-top: .7rem; }
 .page-hero.blog-hero h1 { max-width: 14em; font-size: clamp(2.2rem, 4vw, 3.6rem); margin-top: .2rem; }

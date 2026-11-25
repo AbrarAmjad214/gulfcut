@@ -31,5 +31,8 @@
             <a class="footer-google" href="{{ $g::GBP_URL }}" target="_blank" rel="noopener" data-track="google-profile">Find us on Google Maps →</a>
         </div>
     </div>
-    <div class="wrap footer-copy">© {{ date('Y') }} Gulf Cut UAE. All rights reserved.</div>
+    <div class="wrap footer-copy">
+        <span>© {{ date('Y') }} Gulf Cut UAE. All rights reserved.</span>
+        <span class="footer-credit">Designed &amp; developed by <a href="https://rabrar.com/" target="_blank" rel="noopener">rabrar.com</a></span>
+    </div>
 </footer>
