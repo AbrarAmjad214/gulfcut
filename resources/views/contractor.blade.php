@@ -11,7 +11,7 @@
         @include('partials.crumbs')
         <p class="eyebrow">UAE contractor</p>
         <h1>Concrete Cutting, Wall Saw Cutting &amp; Demolition Contractor</h1>
-        <p>Gulf Cut cuts, wall-saws and removes reinforced concrete for contractors across Dubai and the UAE.</p>
+        <p>{!! $g::link('Gulf Cut cuts, wall-saws and removes reinforced concrete for contractors across Dubai and the UAE.') !!}</p>
         <div class="btn-row">
             <a class="btn" href="{{ route('contact') }}">Get Free Quote</a>
             <a class="btn btn-ghost" href="tel:{{ $g::PHONE_TEL }}">Call {{ $g::PHONE_DISPLAY }}</a>
@@ -24,8 +24,8 @@
         <div>
             <p class="eyebrow">One crew</p>
             <h2>Hire the contractor for the cut and the removal</h2>
-            <p>Main contractors call Gulf Cut when a drawing needs a new opening and the old concrete has to come out. We set the wall saw on the line, cut the slab or wall, and take the piece away without breaking the structure around it.</p>
-            <p>The yard is in Al Quoz, Dubai. The same team covers Abu Dhabi, Sharjah, Ajman and the rest of the UAE for concrete cutting, wall saw cutting and controlled demolition.</p>
+            <p>{!! $g::link('Main contractors call Gulf Cut when a drawing needs a new opening and the old concrete has to come out. We set the wall saw on the line, cut the slab or wall, and take the piece away without breaking the structure around it.') !!}</p>
+            <p>{!! $g::link('The yard is in Al Quoz, Dubai. The same team covers Abu Dhabi, Sharjah, Ajman and the rest of the UAE for concrete cutting, wall saw cutting and controlled demolition.') !!}</p>
             <ul class="ticks">
                 <li>Concrete cutting for walls, slabs, floors and beams</li>
                 <li>Wall saw cutting for doors, windows and lift openings</li>
@@ -87,37 +87,39 @@
         <div class="section-head">
             <p class="eyebrow">On site</p>
             <h2>How a contractor job runs</h2>
-            <p>Send the drawing, the thickness and the site address. Gulf Cut confirms the method, then cuts and removes the concrete.</p>
+            <p>{!! $g::link('Send the drawing, the thickness and the site address. Gulf Cut confirms the method, then cuts and removes the concrete.') !!}</p>
         </div>
         <ol class="steps">
             <li>
                 <span>01</span>
                 <h3>Drawing and site check</h3>
-                <p>Opening size, wall or slab thickness, access, and what has to stay in use next door.</p>
+                <p>{!! $g::link('Opening size, wall or slab thickness, access, and what has to stay in use next door.') !!}</p>
             </li>
             <li>
                 <span>02</span>
                 <h3>Scan if needed</h3>
-                <p>Steel, pipes and cables marked before the saw or the drill is set on the line.</p>
+                <p>{!! $g::link('Steel, pipes and cables marked before the saw or the drill is set on the line.') !!}</p>
             </li>
             <li>
                 <span>03</span>
                 <h3>Wall saw or floor saw</h3>
-                <p>Diamond cutting on the marked line, with water and slurry kept off the live areas.</p>
+                <p>{!! $g::link('Diamond cutting on the marked line, with water and slurry kept off the live areas.') !!}</p>
             </li>
             <li>
                 <span>04</span>
                 <h3>Controlled demolition</h3>
-                <p>The freed concrete is cut into pieces and taken out. The surrounding structure stays.</p>
+                <p>{!! $g::link('The freed concrete is cut into pieces and taken out. The surrounding structure stays.') !!}</p>
             </li>
             <li>
                 <span>05</span>
                 <h3>Handover</h3>
-                <p>Edges left ready for the builder. The floor is cleared for the next trade.</p>
+                <p>{!! $g::link('Edges left ready for the builder. The floor is cleared for the next trade.') !!}</p>
             </li>
         </ol>
     </div>
 </section>
+
+@include('partials.related-links', ['slug' => 'concrete-cutting-wall-saw-demolition-contractor'])
 
 @include('partials.google-profile', ['variant' => 'band'])
 

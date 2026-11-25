@@ -21,7 +21,7 @@
             @foreach ($post['sections'] as $section)
                 <h2>{{ $section['h2'] }}</h2>
                 @foreach ($section['paragraphs'] as $paragraph)
-                    <p>{{ $paragraph }}</p>
+                    <p>{!! $g::link($paragraph) !!}</p>
                 @endforeach
                 @if (!empty($section['list']))
                     <ul class="ticks">
@@ -48,7 +48,7 @@
                     @foreach ($post['faqs'] as $faq)
                         <details>
                             <summary>{{ $faq['q'] }}</summary>
-                            <p>{{ $faq['a'] }}</p>
+                            <p>{!! $g::link($faq['a']) !!}</p>
                         </details>
                     @endforeach
                 </div>
@@ -59,10 +59,18 @@
                 <p class="eyebrow">Book this work</p>
                 <h3>{{ $post['service_label'] }}</h3>
                 <p>Gulf Cut cuts, drills and removes concrete across the UAE from Al Quoz, Dubai.</p>
-                <a class="btn" href="{{ url($post['service']) }}">View service</a>
+                <a class="btn" href="{{ url($post['service']) }}">{{ $g::label($post['service']) }} service</a>
                 <a class="btn btn-line" href="{{ route('contact') }}">Request a quote</a>
                 <p><a href="tel:{{ $g::PHONE_TEL }}">{{ $g::PHONE_DISPLAY }}</a></p>
             </div>
+            @php $onSite = $g::cluster($post['service'])['projects'][0] ?? null; @endphp
+            @if ($onSite)
+                <a class="side-link" href="{{ url('projects/'.$onSite['slug']) }}">
+                    <span class="eyebrow">See it on site</span>
+                    <strong>{{ $onSite['h1'] }}</strong>
+                    <span>{{ $onSite['location'] }} project →</span>
+                </a>
+            @endif
         </aside>
     </div>
 </section>

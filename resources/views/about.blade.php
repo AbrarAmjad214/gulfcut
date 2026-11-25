@@ -17,7 +17,7 @@
 <section class="section">
     <div class="wrap narrow" data-animate>
         @foreach ($paragraphs as $paragraph)
-            <p>{{ $paragraph }}</p>
+            <p>{!! $g::link($paragraph) !!}</p>
         @endforeach
     </div>
     <div class="wrap offer-grid">

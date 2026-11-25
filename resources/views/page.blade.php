@@ -15,7 +15,7 @@
         <p class="eyebrow">{{ $page['hero']['kicker'] }}</p>
         <h1>{{ $page['hero']['heading'] }}</h1>
         @if ($page['hero']['lead'])
-            <p>{{ $page['hero']['lead'] }}</p>
+            <p>{!! $g::link($page['hero']['lead']) !!}</p>
         @endif
         <div class="btn-row">
             <a class="btn" href="{{ route('contact') }}">Get Free Quote</a>
@@ -28,7 +28,7 @@
 <section class="section">
     <div class="wrap narrow">
         @foreach ($page['hero']['paragraphs'] as $paragraph)
-            <p data-animate>{{ $paragraph }}</p>
+            <p data-animate>{!! $g::link($paragraph) !!}</p>
         @endforeach
     </div>
 </section>
@@ -56,7 +56,7 @@
             <div class="wrap">
                 <h2 data-animate>{{ $section['title'] }}</h2>
                 @foreach ($section['notes'] as $note)
-                    <p>{{ $note }}</p>
+                    <p>{!! $g::link($note) !!}</p>
                 @endforeach
                 <div class="city-grid">
                     @foreach ($section['items'] as $item)
@@ -64,7 +64,7 @@
                     @endforeach
                 </div>
                 @foreach ($section['after'] ?? [] as $note)
-                    <p class="center">{{ $note }}</p>
+                    <p class="center">{!! $g::link($note) !!}</p>
                 @endforeach
             </div>
         </section>
@@ -76,7 +76,7 @@
                         <h2 data-animate>{{ $section['title'] }}</h2>
                     @endif
                     @foreach ($section['notes'] as $note)
-                        <p data-animate>{{ $note }}</p>
+                        <p data-animate>{!! $g::link($note) !!}</p>
                     @endforeach
                     @if ($section['kind'] === 'cards')
                         <div class="icon-grid">
@@ -116,6 +116,8 @@
         </section>
     @endif
 @endforeach
+
+@include('partials.related-links', ['slug' => $page['slug']])
 
 @include('partials.google-profile', ['variant' => 'band'])
 

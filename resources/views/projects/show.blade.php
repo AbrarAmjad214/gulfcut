@@ -25,7 +25,7 @@
             @foreach ($project['sections'] as $section)
                 <h2>{{ $section['h2'] }}</h2>
                 @foreach ($section['paragraphs'] as $paragraph)
-                    <p>{{ $paragraph }}</p>
+                    <p>{!! $g::link($paragraph) !!}</p>
                 @endforeach
                 @if (!empty($section['list']))
                     <ul class="ticks">
@@ -42,10 +42,18 @@
                 <p class="eyebrow">Same kind of job</p>
                 <h3>{{ $project['service_label'] }}</h3>
                 <p>Send the drawing, the thickness and the site. Gulf Cut will say how the cut should be done.</p>
-                <a class="btn" href="{{ url($project['service']) }}">View service</a>
+                <a class="btn" href="{{ url($project['service']) }}">{{ $g::label($project['service']) }} service</a>
                 <a class="btn btn-line" href="{{ route('contact') }}">Request a quote</a>
                 <p><a href="tel:{{ $g::PHONE_TEL }}">{{ $g::PHONE_DISPLAY }}</a></p>
             </div>
+            @php $guide = $g::cluster($project['service'])['posts'][0] ?? null; @endphp
+            @if ($guide)
+                <a class="side-link" href="{{ url('blog/'.$guide['slug']) }}">
+                    <span class="eyebrow">Read the guide</span>
+                    <strong>{{ $guide['h1'] }}</strong>
+                    <span>{{ $guide['category'] }} →</span>
+                </a>
+            @endif
         </aside>
     </div>
 </section>

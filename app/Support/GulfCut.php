@@ -189,6 +189,148 @@ class GulfCut
         return $path === '/' ? route('home') : url($path);
     }
 
+    /** Most contextual keyword links added to one page. */
+    public const MAX_AUTO_LINKS = 10;
+
+    /** @var array<string, bool> targets already linked on this request */
+    private static array $linked = [];
+
+    private static int $linkCount = 0;
+
+    /**
+     * Target keyword(s) for each page. The first phrase is the page's primary keyword;
+     * every phrase found in body copy elsewhere on the site links to that page once.
+     *
+     * @return array<string, array<int, string>>
+     */
+    public static function keywordMap(): array
+    {
+        return [
+            'wall-saw-cutting' => ['wall saw cutting', 'wall sawing', 'concrete wall cutting', 'wall saw'],
+            'floor-saw-cutting' => ['floor saw cutting', 'floor sawing', 'floor cutting', 'floor saw'],
+            'wire-saw-cutting' => ['wire saw cutting', 'wire sawing', 'wire saw'],
+            'concrete-beam-cutting' => ['concrete beam cutting', 'beam cutting'],
+            'concrete-cutting-services-uae' => ['concrete cutting services', 'concrete cutting'],
+            'core-cutting-services-uae' => ['core cutting services', 'diamond core drilling', 'core drilling', 'core cutting'],
+            'concrete-slab-core-cutting' => ['slab core cutting', 'slab core drilling'],
+            'concrete-wall-core-cutting' => ['wall core cutting', 'wall core drilling'],
+            'concrete-beam-core-cutting' => ['beam core cutting', 'beam core drilling'],
+            'concrete-scanning' => ['gpr concrete scanning', 'gpr scanning', 'concrete scanning', 'gpr'],
+            'concrete-slab-3d-scanning' => ['slab 3d scanning', '3d scanning', 'slab scanning', 'slab scan'],
+            'concrete-staircase-demolition' => ['staircase demolition', 'staircase removal', 'stair removal', 'staircase'],
+            'concrete-slab-demolition' => ['slab demolition', 'floor demolition', 'slab removal'],
+            'concrete-demolition-services-uae' => ['concrete demolition services', 'controlled demolition', 'concrete demolition'],
+            'concrete-cutting-wall-saw-demolition-contractor' => ['cutting and demolition contractor', 'demolition contractor'],
+        ];
+    }
+
+    /**
+     * Escape plain copy and turn the first mention of each target keyword into an internal link.
+     * Never links the current page, links each target once per page, stops at MAX_AUTO_LINKS.
+     */
+    public static function link(?string $text): string
+    {
+        $html = e((string) $text);
+        if ($html === '' || self::$linkCount >= self::MAX_AUTO_LINKS) {
+            return $html;
+        }
+
+        static $pattern = null;
+        static $targets = [];
+        if ($pattern === null) {
+            foreach (self::keywordMap() as $slug => $phrases) {
+                foreach ($phrases as $phrase) {
+                    $targets[mb_strtolower($phrase)] = $slug;
+                }
+            }
+            $phrases = array_keys($targets);
+            usort($phrases, fn (string $a, string $b) => mb_strlen($b) <=> mb_strlen($a));
+            $pattern = '/\b('.implode('|', array_map(fn (string $p) => preg_quote($p, '/'), $phrases)).')\b/iu';
+        }
+
+        $current = trim(request()->path(), '/');
+
+        return (string) preg_replace_callback($pattern, function (array $m) use ($targets, $current) {
+            $slug = $targets[mb_strtolower($m[1])] ?? null;
+            if ($slug === null || $slug === $current || isset(self::$linked[$slug]) || self::$linkCount >= self::MAX_AUTO_LINKS) {
+                return $m[0];
+            }
+            self::$linked[$slug] = true;
+            self::$linkCount++;
+
+            return '<a class="text-link" href="'.e(url($slug)).'">'.$m[0].'</a>';
+        }, $html);
+    }
+
+    /** Display name for a service slug, from the mega menu. */
+    public static function label(string $slug): string
+    {
+        foreach (self::megaMenu() as $column) {
+            foreach ($column['sections'] as $group) {
+                foreach ($group['items'] as $item) {
+                    if ($item['slug'] === $slug) {
+                        return $item['label'];
+                    }
+                }
+            }
+        }
+
+        return ucwords(str_replace('-', ' ', $slug));
+    }
+
+    /**
+     * Topic cluster for a service page: sibling services from the same mega-menu group
+     * (padded with hub pages), plus the guides and projects written about that group.
+     *
+     * @return array{title: string, services: array<int, array{label: string, slug: string}>, posts: array<int, array<string, mixed>>, projects: array<int, array<string, mixed>>}
+     */
+    public static function cluster(string $slug): array
+    {
+        $title = 'Concrete';
+        $slugs = [$slug];
+        $services = [];
+        foreach (self::megaMenu() as $column) {
+            foreach ($column['sections'] as $group) {
+                $groupSlugs = array_column($group['items'], 'slug');
+                if (in_array($slug, $groupSlugs, true)) {
+                    $title = $group['title'];
+                    $slugs = $groupSlugs;
+                    $services = array_values(array_filter($group['items'], fn (array $i) => $i['slug'] !== $slug));
+                }
+            }
+        }
+
+        // Pad small clusters with the hub pages, so every service links to at least four others.
+        foreach (['concrete-scanning', 'concrete-slab-3d-scanning', 'concrete-cutting-services-uae', 'core-cutting-services-uae', 'concrete-demolition-services-uae', 'wall-saw-cutting'] as $hub) {
+            if (count($services) >= 5) {
+                break;
+            }
+            if ($hub !== $slug && ! in_array($hub, array_column($services, 'slug'), true)) {
+                $services[] = ['label' => self::label($hub), 'slug' => $hub];
+            }
+        }
+
+        $pick = function (array $items, int $limit) use ($slug, $slugs): array {
+            $exact = array_filter($items, fn (array $i) => ($i['service'] ?? '') === $slug);
+            $group = array_filter($items, fn (array $i) => in_array($i['service'] ?? '', $slugs, true) && ($i['service'] ?? '') !== $slug);
+            $rest = array_values(array_filter($items, fn (array $i) => ! in_array($i['service'] ?? '', $slugs, true)));
+            // Rotate the fallback list per page so links spread across all posts/projects.
+            if ($rest !== []) {
+                $shift = crc32($slug) % count($rest);
+                $rest = array_merge(array_slice($rest, $shift), array_slice($rest, 0, $shift));
+            }
+
+            return array_slice(array_values(array_merge($exact, $group, $rest)), 0, $limit);
+        };
+
+        return [
+            'title' => $title,
+            'services' => $services,
+            'posts' => $pick(Blog::all(), 3),
+            'projects' => $pick(Projects::all(), 3),
+        ];
+    }
+
     /** Slugs served by the generic service page template (routes and sitemap use this list). */
     /** @return array<int, string> */
     public static function servicePages(): array

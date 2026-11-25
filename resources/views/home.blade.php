@@ -24,7 +24,7 @@
             <p class="eyebrow">Cutting · Core drilling · Scanning · Demolition</p>
             <h1>Professional Concrete Cutting Services in Dubai UAE</h1>
             <h2>Precision Concrete Cutting &amp; Core Drilling Experts Across the UAE</h2>
-            <p class="hero-lead">Gulf Cut is a trusted provider of professional concrete cutting services in the UAE, delivering safe, accurate, and efficient solutions for residential, commercial, and industrial projects. Using advanced diamond cutting technology and modern equipment, we specialize in concrete cutting, core drilling, wall sawing, slab cutting, wire sawing, concrete demolition, and structural modifications.</p>
+            <p class="hero-lead">{!! $g::link('Gulf Cut is a trusted provider of professional concrete cutting services in the UAE, delivering safe, accurate, and efficient solutions for residential, commercial, and industrial projects. Using advanced diamond cutting technology and modern equipment, we specialize in concrete cutting, core drilling, wall sawing, slab cutting, wire sawing, concrete demolition, and structural modifications.') !!}</p>
             <div class="btn-row">
                 <a class="btn" href="{{ route('contact') }}">Get Free Quote</a>
                 <a class="btn btn-ghost" href="tel:{{ $g::PHONE_TEL }}" data-track="call">Call Us {{ $g::PHONE_DISPLAY }}</a>
@@ -65,11 +65,11 @@
         <div data-animate>
             <p class="eyebrow">Gulf Cut UAE</p>
             <h2>Concrete Cutting &amp; Demolition Crew Based in Al Quoz, Dubai</h2>
-            <p class="lead">Gulf Cut has built a reputation for delivering high-quality concrete cutting and demolition services throughout the UAE. Our experienced technicians combine industry expertise with advanced machinery to provide safe, efficient, and cost-effective solutions for projects of every size.</p>
-            <p>Whether you need precise openings for HVAC systems, plumbing, electrical installations, or controlled demolition for renovation projects, our experienced team ensures every job is completed with accuracy, safety, and minimal disruption. We proudly serve clients across Dubai, Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah, Umm Al Quwain, and other locations throughout the UAE.</p>
-            <p>From residential villas and commercial buildings to industrial facilities and infrastructure projects, we handle every job with professionalism and attention to detail. Our services are designed to meet the highest safety standards while ensuring precision and minimal impact on surrounding structures.</p>
-            <p>Using modern diamond cutting equipment, wall saws, wire saws, floor saws, and core drilling machines, we can safely cut reinforced concrete, slabs, walls, beams, columns, and other structural elements. Whether your project involves new construction, renovation, expansion, or selective demolition, Gulf Cut delivers reliable solutions tailored to your requirements.</p>
-            <p>Our commitment to quality workmanship, timely project completion, and customer satisfaction has made us a preferred choice for contractors, builders, engineers, facility managers, and property owners across the UAE.</p>
+            <p class="lead">{!! $g::link('Gulf Cut has built a reputation for delivering high-quality concrete cutting and demolition services throughout the UAE. Our experienced technicians combine industry expertise with advanced machinery to provide safe, efficient, and cost-effective solutions for projects of every size.') !!}</p>
+            <p>{!! $g::link('Whether you need precise openings for HVAC systems, plumbing, electrical installations, or controlled demolition for renovation projects, our experienced team ensures every job is completed with accuracy, safety, and minimal disruption. We proudly serve clients across Dubai, Abu Dhabi, Sharjah, Ajman, Ras Al Khaimah, Fujairah, Umm Al Quwain, and other locations throughout the UAE.') !!}</p>
+            <p>{!! $g::link('From residential villas and commercial buildings to industrial facilities and infrastructure projects, we handle every job with professionalism and attention to detail. Our services are designed to meet the highest safety standards while ensuring precision and minimal impact on surrounding structures.') !!}</p>
+            <p>{!! $g::link('Using modern diamond cutting equipment, wall saws, wire saws, floor saws, and core drilling machines, we can safely cut reinforced concrete, slabs, walls, beams, columns, and other structural elements. Whether your project involves new construction, renovation, expansion, or selective demolition, Gulf Cut delivers reliable solutions tailored to your requirements.') !!}</p>
+            <p>{!! $g::link('Our commitment to quality workmanship, timely project completion, and customer satisfaction has made us a preferred choice for contractors, builders, engineers, facility managers, and property owners across the UAE.') !!}</p>
             <div class="btn-row">
                 <a class="btn" href="{{ route('about') }}">About Gulf Cut</a>
                 <a class="btn btn-line" href="tel:{{ $g::PHONE_TEL }}" data-track="call">Call Us {{ $g::PHONE_DISPLAY }}</a>
@@ -87,7 +87,7 @@
                 <h2>Our Professional Services</h2>
             </div>
             <div>
-                <p>Specialist diamond cutting, coring, scanning and demolition, delivered to spec and on schedule across the UAE.</p>
+                <p>{!! $g::link('Specialist diamond cutting, coring, scanning and demolition, delivered to spec and on schedule across the UAE.') !!}</p>
                 <a class="more" href="{{ route('services') }}">All services →</a>
             </div>
         </div>
@@ -166,8 +166,8 @@
         <div data-animate>
             <p class="eyebrow">Why It Matters</p>
             <h2>Why Professional Concrete Cutting Services Matter</h2>
-            <p>Concrete cutting plays a critical role in modern construction, renovation, and demolition projects. Whether you’re modifying an existing structure or preparing a new development, precision is essential to maintain structural integrity and ensure project safety. Professional concrete cutting allows contractors to create clean openings, remove damaged sections, and make structural changes without causing unnecessary damage to surrounding areas.</p>
-            <p>At Gulf Cut, we use advanced diamond cutting technology that delivers accurate, vibration-controlled, and low-noise cutting solutions. Unlike traditional demolition methods, our equipment minimizes dust, reduces project downtime, and produces clean finishes that are ready for the next stage of construction. From residential villas to commercial towers and industrial facilities, we provide dependable concrete cutting services tailored to every project.</p>
+            <p>{!! $g::link('Concrete cutting plays a critical role in modern construction, renovation, and demolition projects. Whether you’re modifying an existing structure or preparing a new development, precision is essential to maintain structural integrity and ensure project safety. Professional concrete cutting allows contractors to create clean openings, remove damaged sections, and make structural changes without causing unnecessary damage to surrounding areas.') !!}</p>
+            <p>{!! $g::link('At Gulf Cut, we use advanced diamond cutting technology that delivers accurate, vibration-controlled, and low-noise cutting solutions. Unlike traditional demolition methods, our equipment minimizes dust, reduces project downtime, and produces clean finishes that are ready for the next stage of construction. From residential villas to commercial towers and industrial facilities, we provide dependable concrete cutting services tailored to every project.') !!}</p>
             <a class="btn" href="tel:{{ $g::PHONE_TEL }}" data-track="call">Call Us {{ $g::PHONE_DISPLAY }}</a>
         </div>
         <figure data-animate="right">
@@ -199,8 +199,8 @@
                 <h2>Our Commitment</h2>
             </div>
             <div>
-                <p>Safety is at the heart of everything we do. Every project begins with a detailed site assessment and risk evaluation to ensure the safest cutting method is selected. Our trained technicians follow industry best practices and use modern equipment to reduce dust, vibration, and noise while protecting nearby structures.</p>
-                <p>Our commitment to quality means every cut is measured, planned, and executed with precision. We continuously maintain our equipment and invest in the latest technologies to deliver consistent, high-quality workmanship on every project.</p>
+                <p>{!! $g::link('Safety is at the heart of everything we do. Every project begins with a detailed site assessment and risk evaluation to ensure the safest cutting method is selected. Our trained technicians follow industry best practices and use modern equipment to reduce dust, vibration, and noise while protecting nearby structures.') !!}</p>
+                <p>{!! $g::link('Our commitment to quality means every cut is measured, planned, and executed with precision. We continuously maintain our equipment and invest in the latest technologies to deliver consistent, high-quality workmanship on every project.') !!}</p>
             </div>
         </div>
     </div>
@@ -213,24 +213,24 @@
             <img class="duo-photo" src="{{ $g::photo('Concrete-floor-cutting.jpeg') }}" {!! $g::attrs($g::photo('Concrete-floor-cutting.jpeg')) !!} alt="Concrete floor cutting" loading="lazy" decoding="async">
             <p class="eyebrow">Where We're Used</p>
             <h2>Applications of Our Services</h2>
-            <p>Our concrete cutting and core drilling services are widely used for:</p>
+            <p>{!! $g::link('Our concrete cutting and core drilling services are widely used for:') !!}</p>
             <ul class="ticks">
                 @foreach (['Door and window openings', 'Lift shaft modifications', 'HVAC duct openings', 'Plumbing installations', 'Electrical conduit installations', 'Fire protection systems', 'Bridge construction', 'Road cutting', 'Industrial plant maintenance', 'Warehouse renovations', 'Building extensions', 'Shopping mall renovations', 'Hotel construction', 'Hospital infrastructure projects', 'Residential remodeling', 'Factory upgrades'] as $use)
                     <li>{{ $use }}</li>
                 @endforeach
             </ul>
-            <p>No matter the size or complexity of the project, Gulf Cut has the expertise and equipment to deliver precise and reliable results.</p>
+            <p>{!! $g::link('No matter the size or complexity of the project, Gulf Cut has the expertise and equipment to deliver precise and reliable results.') !!}</p>
         </div>
         <div class="duo-card duo-dark" data-animate="right">
             <p class="eyebrow">The Payoff</p>
             <h2>Benefits of Choosing Gulf Cut</h2>
-            <p>Choosing Gulf Cut means working with a company that values precision, safety, and customer satisfaction. Here are some of the advantages of partnering with us:</p>
+            <p>{!! $g::link('Choosing Gulf Cut means working with a company that values precision, safety, and customer satisfaction. Here are some of the advantages of partnering with us:') !!}</p>
             <ul class="ticks">
                 @foreach (['Experienced and certified technicians', 'Safe and controlled work methods', 'Accurate cutting with minimal vibration', 'Affordable and transparent pricing', 'Reliable customer support', 'Advanced diamond cutting technology', 'Fast response across the UAE', 'Reduced dust and noise', 'Timely project completion', 'Customized solutions for every project'] as $benefit)
                     <li>{{ $benefit }}</li>
                 @endforeach
             </ul>
-            <p>Our goal is to provide high-quality concrete cutting services that help clients complete their projects safely, efficiently, and on schedule.</p>
+            <p>{!! $g::link('Our goal is to provide high-quality concrete cutting services that help clients complete their projects safely, efficiently, and on schedule.') !!}</p>
             <a class="btn" href="{{ route('contact') }}">Get Free Quote</a>
         </div>
     </div>
@@ -243,7 +243,7 @@
             <div data-animate>
                 <p class="eyebrow">Industries We Serve</p>
                 <h2>Built For Every Sector</h2>
-                <p>Our services support a wide range of industries across the UAE, including:</p>
+                <p>{!! $g::link('Our services support a wide range of industries across the UAE, including:') !!}</p>
                 <div class="chips">
                     @foreach (['Residential Construction', 'Commercial Buildings', 'Industrial Facilities', 'Hospitals & Healthcare', 'Hotels & Hospitality', 'Shopping Malls', 'Schools & Universities', 'Government Projects', 'Infrastructure Development', 'Warehouses & Factories', 'Airports & Transport Facilities'] as $industry)
                         <span>{{ $industry }}</span>
@@ -253,13 +253,13 @@
             <div data-animate="right">
                 <p class="eyebrow">Who We Work With</p>
                 <h2>Our Clients</h2>
-                <p>We proudly work with a wide range of clients across the UAE, including:</p>
+                <p>{!! $g::link('We proudly work with a wide range of clients across the UAE, including:') !!}</p>
                 <div class="chips chips-soft">
                     @foreach (['Construction Companies', 'General Contractors', 'Civil Engineering Firms', 'MEP Contractors', 'Government Organizations', 'Property Developers', 'Facility Management Companies', 'Industrial Plants', 'Residential Property Owners', 'Commercial Building Owners', 'Hotels and Hospitality Groups', 'Educational Institutions'] as $client)
                         <span>{{ $client }}</span>
                     @endforeach
                 </div>
-                <p>We successfully complete residential, commercial, industrial, and infrastructure projects across the UAE with precision, safety, and efficiency.</p>
+                <p>{!! $g::link('We successfully complete residential, commercial, industrial, and infrastructure projects across the UAE with precision, safety, and efficiency.') !!}</p>
             </div>
         </div>
     </div>
@@ -282,14 +282,14 @@
                 <p class="eyebrow">Coverage, In Detail</p>
                 <h2>Areas We Serve Across the UAE</h2>
             </div>
-            <p>Gulf Cut proudly provides professional concrete cutting and core drilling services throughout the United Arab Emirates. We regularly serve clients in:</p>
+            <p>{!! $g::link('Gulf Cut proudly provides professional concrete cutting and core drilling services throughout the United Arab Emirates. We regularly serve clients in:') !!}</p>
         </div>
         <div class="city-grid">
             @foreach ($g::cities() as $city)
                 <div data-animate style="--delay: {{ ($loop->index % 4) * 60 }}ms"><span class="pin" aria-hidden="true"></span>{{ $city }}</div>
             @endforeach
         </div>
-        <p class="center" data-animate>Whether your project is a small residential renovation or a large commercial development, our experienced team is ready to deliver reliable and professional solutions anywhere in the UAE.</p>
+        <p class="center" data-animate>{!! $g::link('Whether your project is a small residential renovation or a large commercial development, our experienced team is ready to deliver reliable and professional solutions anywhere in the UAE.') !!}</p>
     </div>
 </section>
 
@@ -337,7 +337,7 @@
                 <h2>Recent cutting work</h2>
             </div>
             <div>
-                <p>Openings, cores, floor sawing and removals from Gulf Cut sites in Dubai and the UAE.</p>
+                <p>{!! $g::link('Openings, cores, floor sawing and removals from Gulf Cut sites in Dubai and the UAE.') !!}</p>
                 <a class="more" href="{{ route('projects') }}">All projects →</a>
             </div>
         </div>
@@ -366,7 +366,7 @@
                 <h2>Guides for Dubai sites</h2>
             </div>
             <div>
-                <p>How to choose concrete cutting, core drilling and demolition before the crew arrives.</p>
+                <p>{!! $g::link('How to choose concrete cutting, core drilling and demolition before the crew arrives.') !!}</p>
                 <a class="more" href="{{ route('blog') }}">All guides →</a>
             </div>
         </div>
