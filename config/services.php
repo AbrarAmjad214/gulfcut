@@ -2,6 +2,16 @@
 
 return [
 
+    // Gulf Cut site integrations. Each one renders only when its value is set in .env.
+    'site' => [
+        'gtm' => env('GTM_ID'),
+        'ga4' => env('GA4_ID'),
+        'search_console' => env('GOOGLE_SITE_VERIFICATION'),
+        'bing' => env('BING_SITE_VERIFICATION'),
+        'twitter' => env('TWITTER_HANDLE'),
+        'same_as' => array_filter(array_map('trim', explode(',', (string) env('SAME_AS', '')))),
+    ],
+
     /*
     |--------------------------------------------------------------------------
     | Third Party Services

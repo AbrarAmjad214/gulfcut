@@ -1,9 +1,13 @@
 @extends('layouts.site')
 @php $g = \App\Support\GulfCut::class; @endphp
 
+@push('head')
+    {!! $g::preload($g::photo('ConcreteDemolitionServices.jpeg'), '(max-width: 760px) 100vw, 40vw') !!}
+@endpush
+
 @section('content')
 <section class="hero">
-    <div class="hero-bg" style="background-image:url('{{ $g::photo('Concrete-slab-3d-scanning.jpeg') }}')"></div>
+    <div class="hero-bg" {!! $g::heroStyle($g::photo('Concrete-slab-3d-scanning.jpeg')) !!}></div>
     <div class="wrap hero-grid">
         <div data-animate>
             <p class="eyebrow">We Are Solving</p>
@@ -17,7 +21,7 @@
             </div>
         </div>
         <figure class="hero-photo" data-animate="right">
-            <img src="{{ $g::photo('ConcreteDemolitionServices.jpeg') }}" alt="Concrete demolition services" width="800" height="550" decoding="async">
+            <img src="{{ $g::photo('ConcreteDemolitionServices.jpeg') }}" {!! $g::attrs($g::photo('ConcreteDemolitionServices.jpeg'), '(max-width: 760px) 100vw, 40vw') !!} alt="Gulf Cut crew on a controlled concrete demolition job in the UAE" fetchpriority="high" decoding="async">
         </figure>
     </div>
 </section>
@@ -25,11 +29,11 @@
 <section class="section">
     <div class="wrap split">
         <figure data-animate>
-            <img src="{{ $g::photo('Concrete-staircase-Demolition.jpeg') }}" alt="Concrete staircase demolition" loading="lazy" decoding="async">
+            <img src="{{ $g::photo('Concrete-staircase-Demolition.jpeg') }}" {!! $g::attrs($g::photo('Concrete-staircase-Demolition.jpeg')) !!} alt="Concrete staircase demolition" loading="lazy" decoding="async">
         </figure>
         <div data-animate>
             <p class="eyebrow">Gulf Cut UAE</p>
-            <h2>Trusted Concrete Cutting &amp; Demolition Company in UAE</h2>
+            <h2>Concrete Cutting &amp; Demolition Crew Based in Al Quoz, Dubai</h2>
             <p>Gulf Cut has built a reputation for delivering high-quality concrete cutting and demolition services throughout the UAE. Our experienced technicians combine industry expertise with advanced machinery to provide safe, efficient, and cost-effective solutions for projects of every size.</p>
             <p>From residential villas and commercial buildings to industrial facilities and infrastructure projects, we handle every job with professionalism and attention to detail. Our services are designed to meet the highest safety standards while ensuring precision and minimal impact on surrounding structures.</p>
             <p>Using modern diamond cutting equipment, wall saws, wire saws, floor saws, and core drilling machines, we can safely cut reinforced concrete, slabs, walls, beams, columns, and other structural elements. Whether your project involves new construction, renovation, expansion, or selective demolition, Gulf Cut delivers reliable solutions tailored to your requirements.</p>
@@ -52,7 +56,7 @@
         <div class="service-grid">
             @foreach ($g::featured() as $service)
                 <a class="service-card" href="{{ url($service['slug']) }}" data-animate style="--delay: {{ $loop->index * 60 }}ms">
-                    <img src="{{ $g::photo($service['image']) }}" alt="{{ $service['title'] }}" loading="lazy" decoding="async">
+                    <img src="{{ $g::photo($service['image']) }}" {!! $g::attrs($g::photo($service['image'])) !!} alt="{{ $service['title'] }}" loading="lazy" decoding="async">
                     <div>
                         <span class="num">{{ $service['n'] }}</span>
                         <h3>{{ $service['title'] }}</h3>
@@ -150,10 +154,10 @@
             <h2>Why Professional Concrete Cutting Services Matter</h2>
             <p>Concrete cutting plays a critical role in modern construction, renovation, and demolition projects. Whether you’re modifying an existing structure or preparing a new development, precision is essential to maintain structural integrity and ensure project safety. Professional concrete cutting allows contractors to create clean openings, remove damaged sections, and make structural changes without causing unnecessary damage to surrounding areas.</p>
             <p>At Gulf Cut, we use advanced diamond cutting technology that delivers accurate, vibration-controlled, and low-noise cutting solutions. Unlike traditional demolition methods, our equipment minimizes dust, reduces project downtime, and produces clean finishes that are ready for the next stage of construction. From residential villas to commercial towers and industrial facilities, we provide dependable concrete cutting services tailored to every project.</p>
-            <a class="btn" href="tel:{{ $g::PHONE_TEL }}">Call Us {{ $g::PHONE_TEL }}</a>
+            <a class="btn" href="tel:{{ $g::PHONE_TEL }}" data-track="call">Call Us {{ $g::PHONE_DISPLAY }}</a>
         </div>
         <figure data-animate="right">
-            <img class="rounded" src="{{ $g::photo('Concrete-wall-saw-cutting.jpeg') }}" alt="Wall saw cutting reinforced concrete" loading="lazy" decoding="async">
+            <img class="rounded" src="{{ $g::photo('Concrete-wall-saw-cutting.jpeg') }}" {!! $g::attrs($g::photo('Concrete-wall-saw-cutting.jpeg')) !!} alt="Wall saw cutting reinforced concrete" loading="lazy" decoding="async">
         </figure>
     </div>
 </section>
@@ -199,7 +203,7 @@
             <p>No matter the size or complexity of the project, Gulf Cut has the expertise and equipment to deliver precise and reliable results.</p>
         </div>
         <figure data-animate="right">
-            <img class="rounded" src="{{ $g::photo('Concrete-floor-cutting.jpeg') }}" alt="Concrete floor cutting" loading="lazy" decoding="async">
+            <img class="rounded" src="{{ $g::photo('Concrete-floor-cutting.jpeg') }}" {!! $g::attrs($g::photo('Concrete-floor-cutting.jpeg')) !!} alt="Concrete floor cutting" loading="lazy" decoding="async">
         </figure>
     </div>
 </section>
@@ -252,7 +256,7 @@
         <div data-animate>
             <p class="eyebrow">Stories of Trust</p>
             <h2>And Excellence.</h2>
-            <div class="quotes" id="quotes">
+            <div class="quotes" id="quotes" aria-live="polite">
                 <blockquote class="quote on">
                     <p>“We hired Gulf Cut UAE for slab demolition and core drilling services. Excellent workmanship, fast response, and very competitive pricing.”</p>
                     <cite>Construction Contractor, Dubai</cite>
@@ -269,10 +273,10 @@
             <div class="quote-dots" id="quote-dots"></div>
         </div>
         <div class="stat" data-animate>
-            <div class="stat-num"><span data-count="98">0</span>%</div>
-            <p>Customer Satisfaction</p>
-            <small>Trusted by homes and businesses alike.</small>
-            <img src="{{ $g::photo('ConcreteDemolitionServices.jpeg') }}" alt="Concrete demolition on site" loading="lazy" decoding="async">
+            <div class="stat-num"><span data-count="{{ count($g::cities()) }}">{{ count($g::cities()) }}</span></div>
+            <p>Cities and emirates covered</p>
+            <small>One crew from Al Quoz, Dubai, across the UAE.</small>
+            <img src="{{ $g::photo('ConcreteDemolitionServices.jpeg') }}" {!! $g::attrs($g::photo('ConcreteDemolitionServices.jpeg')) !!} alt="Concrete demolition on site" loading="lazy" decoding="async">
         </div>
     </div>
 </section>
@@ -287,7 +291,7 @@
         <div class="blog-grid">
             @foreach (\App\Support\Projects::related('', 3) as $project)
                 <a class="blog-card" href="{{ url('projects/'.$project['slug']) }}" data-animate>
-                    <img src="{{ $g::photo($project['image']) }}" alt="{{ $project['image_alt'] }}" loading="lazy" decoding="async">
+                    <img src="{{ $g::photo($project['image']) }}" {!! $g::attrs($g::photo($project['image'])) !!} alt="{{ $project['image_alt'] }}" loading="lazy" decoding="async">
                     <div>
                         <p class="blog-meta">{{ $project['location'] }}</p>
                         <h3>{{ $project['h1'] }}</h3>
@@ -311,7 +315,7 @@
         <div class="blog-grid">
             @foreach (\App\Support\Blog::related('', 3) as $post)
                 <a class="blog-card" href="{{ url('blog/'.$post['slug']) }}" data-animate>
-                    <img src="{{ $g::photo($post['image']) }}" alt="{{ $post['image_alt'] }}" loading="lazy" decoding="async">
+                    <img src="{{ $g::photo($post['image']) }}" {!! $g::attrs($g::photo($post['image'])) !!} alt="{{ $post['image_alt'] }}" loading="lazy" decoding="async">
                     <div>
                         <p class="blog-meta">{{ $post['category'] }}</p>
                         <h3>{{ $post['h1'] }}</h3>

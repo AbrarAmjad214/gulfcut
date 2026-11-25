@@ -1,25 +1,23 @@
-<form class="quote-form" method="post" action="{{ route('contact.send') }}">
+@php $g = \App\Support\GulfCut::class; @endphp
+<form class="quote-form" method="post" action="{{ route('contact.send') }}" data-track="quote-form">
     @csrf
-    @if (session('sent'))
-        <p class="form-ok wide">Thank you. Gulf Cut will contact you shortly about your project.</p>
-    @endif
     <label>Name
-        <input type="text" name="name" value="{{ old('name') }}" placeholder="Your name" required>
+        <input type="text" name="name" value="{{ old('name') }}" placeholder="Your name" autocomplete="name" maxlength="120" required>
     </label>
     <label>Phone
-        <input type="tel" name="phone" value="{{ old('phone') }}" placeholder="05x xxx xxxx" required>
+        <input type="tel" name="phone" value="{{ old('phone') }}" placeholder="05x xxx xxxx" autocomplete="tel" inputmode="tel" maxlength="40" required>
     </label>
     <label>Email
-        <input type="email" name="email" value="{{ old('email') }}" placeholder="you@email.com" required>
+        <input type="email" name="email" value="{{ old('email') }}" placeholder="you@email.com" autocomplete="email" maxlength="160" required>
     </label>
     <label>Site address
-        <input type="text" name="address" value="{{ old('address') }}" placeholder="Area, Dubai">
+        <input type="text" name="address" value="{{ old('address') }}" placeholder="Area, Dubai" autocomplete="street-address" maxlength="200">
     </label>
     <label class="wide">Service
         <select name="service">
             <option value="">Select a service</option>
             @php
-                $labels = array_column(\App\Support\GulfCut::menu(), 'label');
+                $labels = array_column($g::menu(), 'label');
                 $chosen = old('service', $preset ?? '');
             @endphp
             @if ($chosen !== '' && ! in_array($chosen, $labels, true))
@@ -33,18 +31,22 @@
     <label class="wide">Project details
         <textarea name="details" maxlength="1000" placeholder="Opening size, wall thickness, site access">{{ old('details') }}</textarea>
     </label>
-    <label class="hp">Website
+    <label class="hp" aria-hidden="true">Website
         <input type="text" name="website" tabindex="-1" autocomplete="off">
     </label>
     <input type="hidden" name="page" value="{{ $source ?? url()->current() }}">
-    @error('name') <p class="form-err wide">{{ $message }}</p> @enderror
-    @error('email') <p class="form-err wide">{{ $message }}</p> @enderror
-    @error('phone') <p class="form-err wide">{{ $message }}</p> @enderror
+    @if ($errors->any())
+        <div class="form-err wide" role="alert">
+            @foreach ($errors->all() as $message)
+                <p>{{ $message }}</p>
+            @endforeach
+        </div>
+    @endif
     @if (session('mail_error'))
-        <p class="form-err wide">The form could not be sent. Please call {{ \App\Support\GulfCut::PHONE_DISPLAY }} or WhatsApp us.</p>
+        <p class="form-err wide" role="alert">The form could not be sent. Please call {{ $g::PHONE_DISPLAY }} or WhatsApp us.</p>
     @endif
     <div class="form-actions">
         <button class="btn" type="submit">Get my quote</button>
-        <a class="btn btn-line" href="https://wa.me/971505962816" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn btn-line" href="{{ $g::WHATSAPP }}" target="_blank" rel="noopener" data-track="whatsapp">WhatsApp</a>
     </div>
 </form>

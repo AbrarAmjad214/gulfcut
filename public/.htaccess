@@ -13,10 +13,8 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    # Redirect Trailing Slashes If Not A Folder...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteRule ^ %1 [L,R=301]
+    # Trailing slashes, www and http are redirected in one hop by
+    # App\Http\Middleware\RedirectTrailingSlash, so no rule here.
 
     # Send Requests To Front Controller...
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -36,6 +34,7 @@
 </IfModule>
 
 <IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
     <FilesMatch "\.(css|js|jpg|jpeg|png|webp|svg|woff2)$">
         Header set Cache-Control "public, max-age=31536000"
     </FilesMatch>

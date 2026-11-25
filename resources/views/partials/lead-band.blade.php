@@ -7,11 +7,11 @@
                 <h2>{{ $heading ?? 'Tell us about the job' }}</h2>
                 <p>{{ $lead ?? 'Share the site, the opening and a phone number. Gulf Cut will call you back with a quotation.' }}</p>
                 <div class="quote-contacts">
-                    <a href="tel:{{ $g::PHONE_TEL }}">
+                    <a href="tel:{{ $g::PHONE_TEL }}" data-track="call">
                         <strong>Call</strong>
                         {{ $g::PHONE_DISPLAY }}
                     </a>
-                    <a href="https://wa.me/971505962816" target="_blank" rel="noopener">
+                    <a href="{{ $g::WHATSAPP }}" data-track="whatsapp" target="_blank" rel="noopener">
                         <strong>WhatsApp</strong>
                         {{ $g::PHONE_DISPLAY }}
                     </a>

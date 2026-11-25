@@ -1,9 +1,13 @@
 @extends('layouts.site')
 @php $g = \App\Support\GulfCut::class; @endphp
 
+@push('head')
+    {!! $g::heroPreload($g::photo($project['image'])) !!}
+@endpush
+
 @section('content')
-<section class="page-hero blog-hero" style="--hero:url('{{ $g::photo($project['image']) }}')">
-    <div class="wrap" data-animate>
+<section class="page-hero blog-hero" {!! $g::heroStyle($g::photo($project['image'])) !!}>
+    <div class="wrap">
         @include('partials.crumbs')
         <p class="eyebrow">{{ $project['location'] }}</p>
         <h1>{{ $project['h1'] }}</h1>
@@ -31,7 +35,7 @@
                     </ul>
                 @endif
             @endforeach
-            <img src="{{ $g::photo($project['extra_image']) }}" alt="{{ $project['extra_alt'] }}" loading="lazy" decoding="async">
+            <img src="{{ $g::photo($project['extra_image']) }}" {!! $g::attrs($g::photo($project['extra_image'])) !!} alt="{{ $project['extra_alt'] }}" loading="lazy" decoding="async">
         </article>
         <aside class="blog-side">
             <div class="icon-card">
@@ -56,7 +60,7 @@
         <div class="blog-grid">
             @foreach ($related as $item)
                 <a class="blog-card" href="{{ url('projects/'.$item['slug']) }}">
-                    <img src="{{ $g::photo($item['image']) }}" alt="{{ $item['image_alt'] }}" loading="lazy" decoding="async">
+                    <img src="{{ $g::photo($item['image']) }}" {!! $g::attrs($g::photo($item['image'])) !!} alt="{{ $item['image_alt'] }}" loading="lazy" decoding="async">
                     <div>
                         <p class="blog-meta">{{ $item['location'] }}</p>
                         <h3>{{ $item['h1'] }}</h3>

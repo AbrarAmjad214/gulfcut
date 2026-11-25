@@ -7,7 +7,9 @@ class Projects
     /** @return array<int, array<string, mixed>> */
     public static function all(): array
     {
-        return require resource_path('data/projects.php');
+        static $projects;
+
+        return $projects ??= require resource_path('data/projects.php');
     }
 
     /** @return array<string, mixed>|null */
@@ -32,6 +34,12 @@ class Projects
         ));
     }
 
+    /** Fallback date for projects without their own 'date' key: when the project data last changed. */
+    public static function date(): string
+    {
+        return date('Y-m-d', (int) filemtime(resource_path('data/projects.php')));
+    }
+
     /** @param array<string, mixed> $project */
     public static function schema(array $project): string
     {
@@ -42,10 +50,21 @@ class Projects
             'description' => $project['description'],
             'image' => GulfCut::absoluteImage($project['image']),
             'mainEntityOfPage' => GulfCut::canonical('/projects/'.$project['slug']),
+            'datePublished' => $project['date'] ?? self::date(),
+            'dateModified' => $project['updated'] ?? $project['date'] ?? self::date(),
             'author' => [
                 '@type' => 'Organization',
                 'name' => 'Gulf Cut UAE',
                 'url' => GulfCut::SITE.'/',
+            ],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'Gulf Cut UAE',
+                'url' => GulfCut::SITE.'/',
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => GulfCut::absoluteImage(GulfCut::LOGO_FILE),
+                ],
             ],
             'about' => [
                 '@type' => 'Service',

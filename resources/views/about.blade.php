@@ -1,9 +1,13 @@
 @extends('layouts.site')
 @php $g = \App\Support\GulfCut::class; @endphp
 
+@push('head')
+    {!! $g::heroPreload($photo) !!}
+@endpush
+
 @section('content')
-<section class="page-hero" style="--hero:url('{{ $photo }}')">
-    <div class="wrap" data-animate>
+<section class="page-hero" {!! $g::heroStyle($photo) !!}>
+    <div class="wrap">
         @include('partials.crumbs')
         <p class="eyebrow">About Us</p>
         <h1>Trusted Concrete Cutting &amp; Demolition Company in UAE</h1>
@@ -19,7 +23,7 @@
     <div class="wrap offer-grid">
         @foreach ($offers as $offer)
             <article class="offer" data-animate>
-                <img src="{{ $g::img($offer['src']) }}" alt="{{ $offer['title'] }}">
+                <img src="{{ $g::img($offer['src']) }}" {!! $g::attrs($g::img($offer['src'])) !!} alt="{{ $offer['title'] }}">
                 <h3>{{ $offer['title'] }}</h3>
                 <p>{{ $offer['text'] }}</p>
             </article>
@@ -41,7 +45,7 @@
                 ['Concrete-wire-saw-cutting.jpeg', 'Wire Saw Cutting', 'Controlled cutting for thick, heavily reinforced structures.'],
             ] as $shot)
                 <article data-animate>
-                    <img src="{{ $g::photo($shot[0]) }}" alt="{{ $shot[1] }}" loading="lazy" decoding="async">
+                    <img src="{{ $g::photo($shot[0]) }}" {!! $g::attrs($g::photo($shot[0])) !!} alt="{{ $shot[1] }}" loading="lazy" decoding="async">
                     <h3>{{ $shot[1] }}</h3>
                     <p>{{ $shot[2] }}</p>
                 </article>

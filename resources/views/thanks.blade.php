@@ -13,7 +13,7 @@
             <p class="thanks-lead">Gulf Cut has your project details. We will call you shortly with a quotation.</p>
             <div class="thanks-actions">
                 <a class="btn" href="tel:{{ $g::PHONE_TEL }}">Call {{ $g::PHONE_DISPLAY }}</a>
-                <a class="btn btn-line" href="https://wa.me/971505962816" target="_blank" rel="noopener">WhatsApp</a>
+                <a class="btn btn-line" href="{{ $g::WHATSAPP }}" data-track="whatsapp" target="_blank" rel="noopener">WhatsApp</a>
                 <a class="btn btn-line" href="{{ route('home') }}">Back to home</a>
             </div>
             <div class="thanks-next">

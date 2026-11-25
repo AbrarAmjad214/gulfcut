@@ -16,9 +16,116 @@ class GulfCut
 
     public const VISIT = 'Dubai, Sharjah, Ajman, Abu Dhabi, United Arab Emirates';
 
+    public const WHATSAPP = 'https://wa.me/971505962816';
+
+    public const LOGO_FILE = 'cropped-logogulf-removebg-preview.png';
+
+    public const OG_IMAGE = 'og-gulfcut.jpg';
+
+    public const MAP_QUERY = 'Al Qouz Fourth, Al Quoz, Dubai, United Arab Emirates';
+
+    /** @var array<string, array{0: int, 1: int}|null> */
+    private static array $sizes = [];
+
+    /** @var array<string, string> */
+    private static array $photos = [];
+
     public static function logo(): string
     {
-        return asset('images/cropped-logogulf-removebg-preview.png');
+        return asset('images/'.self::LOGO_FILE);
+    }
+
+    public static function mapUrl(): string
+    {
+        return 'https://www.google.com/maps/search/?api=1&query='.rawurlencode(self::MAP_QUERY);
+    }
+
+    public static function mapEmbed(): string
+    {
+        return 'https://maps.google.com/maps?q='.rawurlencode(self::MAP_QUERY).'&z=14&output=embed';
+    }
+
+    /** @return array{0: int, 1: int}|null */
+    public static function imageSize(string $file): ?array
+    {
+        $file = basename((string) (parse_url($file, PHP_URL_PATH) ?: $file));
+        if (! array_key_exists($file, self::$sizes)) {
+            $path = public_path('images/'.$file);
+            $info = is_file($path) ? @getimagesize($path) : false;
+            self::$sizes[$file] = $info ? [(int) $info[0], (int) $info[1]] : null;
+        }
+
+        return self::$sizes[$file];
+    }
+
+    /**
+     * width/height, plus srcset when a 640px copy exists, for an <img> under /images.
+     */
+    public static function attrs(string $url, string $sizes = '(max-width: 760px) 100vw, 50vw'): string
+    {
+        $size = self::imageSize($url);
+        if ($size === null) {
+            return '';
+        }
+
+        $out = 'width="'.$size[0].'" height="'.$size[1].'"';
+        $srcset = self::srcset($url);
+        if ($srcset !== '') {
+            $out .= ' srcset="'.e($srcset).'" sizes="'.e($sizes).'"';
+        }
+
+        return $out;
+    }
+
+    public static function srcset(string $url): string
+    {
+        $file = basename((string) (parse_url($url, PHP_URL_PATH) ?: $url));
+        $size = self::imageSize($file);
+        $small = preg_replace('/\.(jpe?g|png|webp)$/i', '-640.webp', $file);
+        if ($size === null || $size[0] <= 700 || ! is_string($small) || ! is_file(public_path('images/'.$small))) {
+            return '';
+        }
+
+        return asset('images/'.$small).' 640w, '.asset('images/'.$file).' '.$size[0].'w';
+    }
+
+    /** A <link rel="preload"> tag for the above-the-fold hero image. */
+    public static function preload(string $url, string $sizes = '(max-width: 760px) 100vw, 50vw'): string
+    {
+        $tag = '<link rel="preload" as="image" href="'.e($url).'" fetchpriority="high"';
+        $srcset = self::srcset($url);
+        if ($srcset !== '') {
+            $tag .= ' imagesrcset="'.e($srcset).'" imagesizes="'.e($sizes).'"';
+        }
+
+        return $tag.'>';
+    }
+
+    /** Small (640px) copy of an image if one exists, else the image itself. */
+    public static function small(string $url): string
+    {
+        $file = basename((string) (parse_url($url, PHP_URL_PATH) ?: $url));
+        $small = preg_replace('/\.(jpe?g|png|webp)$/i', '-640.webp', $file);
+
+        return is_string($small) && is_file(public_path('images/'.$small)) ? asset('images/'.$small) : $url;
+    }
+
+    /** style="" attribute for a .page-hero background (small copy on phones). */
+    public static function heroStyle(string $url): string
+    {
+        return 'style="'.e("--hero:url('".$url."');--hero-sm:url('".self::small($url)."')").'"';
+    }
+
+    /** Preload tags for a .page-hero background, matching the media query used in site.css. */
+    public static function heroPreload(string $url): string
+    {
+        $small = self::small($url);
+        if ($small === $url) {
+            return '<link rel="preload" as="image" href="'.e($url).'" fetchpriority="high">';
+        }
+
+        return '<link rel="preload" as="image" href="'.e($small).'" media="(max-width: 760px)" fetchpriority="high">'
+            .'<link rel="preload" as="image" href="'.e($url).'" media="(min-width: 761px)" fetchpriority="high">';
     }
 
     public static function img(?string $src, string $fallback = 'Concrete-wall-saw-cutting.jpeg'): string
@@ -36,6 +143,11 @@ class GulfCut
     }
 
     public static function photo(string $name): string
+    {
+        return self::$photos[$name] ??= self::resolvePhoto($name);
+    }
+
+    private static function resolvePhoto(string $name): string
     {
         $name = basename(str_replace('\\', '/', $name));
         $webp = preg_replace('/\.(jpe?g|png)$/i', '.webp', $name);
@@ -67,6 +179,19 @@ class GulfCut
         ][$path] ?? $path;
 
         return $path === '/' ? route('home') : url($path);
+    }
+
+    /** Slugs served by the generic service page template (routes and sitemap use this list). */
+    /** @return array<int, string> */
+    public static function servicePages(): array
+    {
+        return [
+            'wall-saw-cutting', 'floor-saw-cutting', 'concrete-scanning', 'wire-saw-cutting',
+            'concrete-slab-3d-scanning', 'concrete-slab-core-cutting', 'concrete-staircase-demolition',
+            'concrete-slab-demolition', 'concrete-wall-core-cutting', 'concrete-beam-cutting',
+            'concrete-beam-core-cutting', 'concrete-demolition-services-uae', 'core-cutting-services-uae',
+            'concrete-cutting-services-uae',
+        ];
     }
 
     /** @return array<int, array{label: string, slug: string}> */
@@ -153,7 +278,6 @@ class GulfCut
             'contact-us' => 'Contact Gulf Cut | Concrete Cutting UAE',
             'wall-saw-cutting' => 'Concrete Wall Saw Cutting Services in UAE | Gulf Cut UAE',
             'floor-saw-cutting' => 'Floor Saw Cutting Services UAE | Gulf Cut',
-            'core-cutting' => 'Diamond Core Drilling Services UAE | Gulf Cut',
             'concrete-scanning' => 'GPR Concrete Scanning Dubai & UAE | Gulf Cut',
             'wire-saw-cutting' => 'Wire Saw Cutting Services UAE | Gulf Cut',
             'concrete-slab-3d-scanning' => 'Slab 3D Scan Before Cutting UAE | Gulf Cut',
@@ -161,7 +285,6 @@ class GulfCut
             'concrete-staircase-demolition' => 'Concrete Staircase Demolition UAE | Gulf Cut',
             'concrete-slab-demolition' => 'Concrete Slab Demolition Services UAE | Gulf Cut',
             'concrete-wall-core-cutting' => 'Concrete Wall Core Cutting Services UAE | Gulf Cut',
-            'concrete-demolition' => 'Concrete Demolition Services UAE | Gulf Cut',
             'concrete-beam-cutting' => 'Concrete Beam Cutting Services UAE | Gulf Cut',
             'concrete-beam-core-cutting' => 'Concrete Beam Core Cutting Dubai | Diamond Drilling UAE',
             'concrete-demolition-services-uae' => 'Concrete Demolition Company in UAE | Gulf Cut',
@@ -180,7 +303,6 @@ class GulfCut
             'contact-us' => 'Contact Gulf Cut in Al Qouz Fourth, Al Quoz, Dubai for concrete cutting, core drilling and demolition across the UAE. Call +971 50 596 2816.',
             'wall-saw-cutting' => 'Concrete wall saw cutting in Dubai and the UAE for doors, windows, lift openings and structural wall changes. Gulf Cut tracks the cut and leaves a clean edge.',
             'floor-saw-cutting' => 'Floor saw cutting in Dubai and the UAE for warehouse slabs, trenches and joints. Gulf Cut leaves a straight edge and keeps the rest of the floor in use.',
-            'core-cutting' => 'Diamond core drilling in Dubai and the UAE for plumbing, electrical and HVAC openings. Gulf Cut drills the marked diameter and removes the core.',
             'concrete-scanning' => 'GPR concrete scanning in Dubai and the UAE. Gulf Cut locates rebar, conduits, pipes and post-tension cables in the concrete before a saw or a core drill starts.',
             'wire-saw-cutting' => 'Wire saw cutting in Dubai and the UAE for thick concrete and beams a track saw cannot reach. Gulf Cut loops the wire and keeps the cut on the line.',
             'concrete-slab-3d-scanning' => '3D scanning of concrete slabs in Dubai and the UAE before cutting or drilling. Gulf Cut maps rebar and services in the slab, then marks the clear lines.',
@@ -188,7 +310,6 @@ class GulfCut
             'concrete-staircase-demolition' => 'Concrete staircase demolition in Dubai and the UAE. Gulf Cut cuts the flight into pieces, carries them out, and leaves the slab and walls standing.',
             'concrete-slab-demolition' => 'Concrete slab demolition in Dubai and the UAE for buildings, factories and warehouses. Gulf Cut saws the slab into panels and removes them safely.',
             'concrete-wall-core-cutting' => 'Concrete wall core cutting in Dubai and the UAE. Diamond drilling for ducts, pipes and cables through reinforced walls, leaving a round opening.',
-            'concrete-demolition' => 'Controlled concrete demolition in Dubai and the UAE for slabs, walls, stairs and beams. Gulf Cut cuts the piece free, then removes it from site.',
             'concrete-beam-cutting' => 'Concrete beam cutting in Dubai and the UAE for structural changes. Gulf Cut saws the beam on the marked line and keeps the rest of the frame in place.',
             'concrete-beam-core-cutting' => 'Concrete beam core cutting in Dubai and the UAE. Diamond drilling through reinforced beams for pipes and cables, so the beam around the hole stays sound.',
             'concrete-demolition-services-uae' => 'Concrete demolition company in the UAE for homes, commercial buildings and industrial sites. Gulf Cut cuts slabs, walls and stairs, then removes the concrete.',
@@ -223,15 +344,25 @@ class GulfCut
     {
         return json_encode([
             '@context' => 'https://schema.org',
-            '@type' => 'LocalBusiness',
+            '@type' => 'HomeAndConstructionBusiness',
             '@id' => self::SITE.'/#business',
             'name' => 'Gulf Cut UAE',
             'url' => self::SITE.'/',
-            'image' => self::absoluteImage('Concrete-wall-saw-cutting.jpeg'),
-            'logo' => self::absoluteImage('cropped-logogulf-removebg-preview.png'),
+            'image' => self::absoluteImage(self::OG_IMAGE),
+            'logo' => self::absoluteImage(self::LOGO_FILE),
             'telephone' => self::PHONE_TEL,
             'email' => self::EMAIL,
             'description' => self::description('home'),
+            'hasMap' => self::mapUrl(),
+            'contactPoint' => [
+                '@type' => 'ContactPoint',
+                'telephone' => self::PHONE_TEL,
+                'email' => self::EMAIL,
+                'contactType' => 'customer service',
+                'areaServed' => 'AE',
+                'availableLanguage' => ['English'],
+            ],
+            'knowsAbout' => array_column(self::menu(), 'label'),
             'address' => [
                 '@type' => 'PostalAddress',
                 'streetAddress' => 'Al Qouz Fourth',
@@ -242,7 +373,69 @@ class GulfCut
             'areaServed' => array_map(fn (string $city) => [
                 '@type' => 'City',
                 'name' => $city,
-            ], ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain']),
+            ], self::cities()),
+        ] + self::sameAs(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    /** @return array<int, string> */
+    public static function cities(): array
+    {
+        return ['Dubai', 'Abu Dhabi', 'Sharjah', 'Ajman', 'Ras Al Khaimah', 'Fujairah', 'Umm Al Quwain', 'Al Ain'];
+    }
+
+    /** @return array<string, array<int, string>> */
+    private static function sameAs(): array
+    {
+        $links = array_values(array_filter((array) config('services.site.same_as', [])));
+
+        return $links === [] ? [] : ['sameAs' => $links];
+    }
+
+    /** @return array<string, string> */
+    private static function provider(): array
+    {
+        return [
+            '@type' => 'HomeAndConstructionBusiness',
+            '@id' => self::SITE.'/#business',
+            'name' => 'Gulf Cut UAE',
+            'url' => self::SITE.'/',
+            'telephone' => self::PHONE_TEL,
+        ];
+    }
+
+    public static function serviceSchema(string $name, string $description, string $path, string $image): string
+    {
+        return json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'Service',
+            'name' => $name,
+            'serviceType' => $name,
+            'description' => $description,
+            'url' => self::canonical($path),
+            'image' => self::absoluteImage($image),
+            'provider' => self::provider(),
+            'areaServed' => array_map(fn (string $city) => ['@type' => 'City', 'name' => $city], self::cities()),
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+    }
+
+    public static function contactSchema(): string
+    {
+        return json_encode([
+            '@context' => 'https://schema.org',
+            '@type' => 'ContactPage',
+            'name' => 'Contact Gulf Cut',
+            'url' => self::canonical('/contact-us'),
+            'about' => self::provider() + [
+                'email' => self::EMAIL,
+                'hasMap' => self::mapUrl(),
+                'address' => [
+                    '@type' => 'PostalAddress',
+                    'streetAddress' => 'Al Qouz Fourth',
+                    'addressLocality' => 'Al Quoz',
+                    'addressRegion' => 'Dubai',
+                    'addressCountry' => 'AE',
+                ],
+            ],
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
     }
 
@@ -349,7 +542,6 @@ class GulfCut
         return [
             ['title' => 'Cutting & Demolition Contractor', 'text' => 'Concrete cutting, wall saw cutting and controlled demolition for contractors across Dubai and the UAE.', 'image' => 'Concrete-wall-saw-cutting.jpeg', 'slug' => 'concrete-cutting-wall-saw-demolition-contractor'],
             ['title' => 'Concrete Slab Core Cutting', 'text' => 'Precise concrete slab core cutting services for plumbing, electrical, HVAC, and structural applications. We create accurate openings without damaging surrounding structures.', 'image' => 'Concrete-slab-core-cutting.jpeg', 'slug' => 'concrete-slab-core-cutting'],
-            ['title' => 'Concrete Floor Demolition', 'text' => 'Efficient concrete floor demolition services for renovation, reconstruction, and industrial projects using modern demolition equipment.', 'image' => 'Concrete-floor-Demolition.jpeg', 'slug' => 'concrete-slab-demolition'],
             ['title' => 'Concrete Wire Saw Cutting', 'text' => 'Heavy-duty wire saw cutting solutions for large concrete structures, bridges, beams, and thick reinforced concrete sections.', 'image' => 'Concrete-wire-saw-cutting.jpeg', 'slug' => 'wire-saw-cutting'],
             ['title' => 'Concrete Wall Core Cutting', 'text' => 'Accurate wall core cutting solutions for utility installation, duct openings, and structural modifications.', 'image' => 'Concrete-wall-core-cutting.jpeg', 'slug' => 'concrete-wall-core-cutting'],
             ['title' => 'Concrete Beam Core Cutting', 'text' => 'Specialized beam core cutting services performed with precision to maintain structural integrity and project safety.', 'image' => 'Concrete-beam-core-cutting.jpeg', 'slug' => 'concrete-beam-core-cutting'],
@@ -372,7 +564,7 @@ class GulfCut
             ['n' => '01', 'title' => 'Concrete Cutting Services', 'text' => 'We provide precise concrete cutting solutions for walls, floors, slabs, beams, and structural modifications using advanced diamond cutting technology. Our methods ensure clean cuts, reduced vibration, and maximum safety.', 'slug' => 'concrete-cutting-services-uae', 'image' => 'Concrete-wall-saw-cutting.jpeg'],
             ['n' => '02', 'title' => 'Core Cutting & Diamond Drilling', 'text' => 'Our core cutting services create accurate circular openings in reinforced concrete for plumbing, electrical, HVAC, and fire protection systems. Diamond core drilling delivers smooth, precise results with minimal dust and noise.', 'slug' => 'core-cutting-services-uae', 'image' => 'Concrete-slab-core-cutting.jpeg'],
             ['n' => '03', 'title' => 'Wall Saw Cutting', 'text' => 'Wall saw cutting is ideal for creating door openings, windows, lift shafts, and structural modifications in reinforced concrete walls. Our advanced equipment guarantees accurate and controlled cutting.', 'slug' => 'wall-saw-cutting', 'image' => 'Concrete-wall-saw-cutting.jpeg'],
-            ['n' => '04', 'title' => 'Slab Cutting', 'text' => 'We perform professional slab cutting for residential, commercial, and industrial construction projects. Our team safely cuts concrete floors, suspended slabs, bridge decks, and foundations.', 'slug' => 'concrete-slab-core-cutting', 'image' => 'Concrete-slab-Demolition.jpeg'],
+            ['n' => '04', 'title' => 'Slab Cutting', 'text' => 'We perform professional slab cutting for residential, commercial, and industrial construction projects. Our team safely cuts concrete floors, suspended slabs, bridge decks, and foundations.', 'slug' => 'concrete-slab-demolition', 'image' => 'Concrete-slab-Demolition.jpeg'],
             ['n' => '05', 'title' => 'Floor Saw Cutting', 'text' => 'Our floor sawing services are used for roads, warehouses, industrial floors, parking areas, and expansion joints. We ensure straight, accurate cuts for every application.', 'slug' => 'floor-saw-cutting', 'image' => 'Concrete-floor-cutting.jpeg'],
             ['n' => '06', 'title' => 'Wire Saw Cutting', 'text' => 'Wire saw cutting is the ideal solution for large or heavily reinforced concrete structures where conventional cutting methods are not suitable. This technique provides precision and flexibility for complex projects.', 'slug' => 'wire-saw-cutting', 'image' => 'Concrete-wire-saw-cutting.jpeg'],
             ['n' => '07', 'title' => 'Concrete Demolition', 'text' => 'We specialize in controlled concrete demolition, including slabs, walls, staircases, beams, columns, and structural elements. Our team follows strict safety procedures while minimizing disruption to nearby structures.', 'slug' => 'concrete-demolition-services-uae', 'image' => 'ConcreteDemolitionServices.jpeg'],
@@ -403,7 +595,7 @@ class GulfCut
         $rest = [];
         $closed = false;
         foreach ($groups as $group) {
-            if (! $closed && ! self::isSectionTitle($group['title'])) {
+            if (! $closed && ! self::isSectionTitle($group['title']) && ! self::hasCards($group)) {
                 if ($group['title'] !== '' && ! preg_match('/^(about us|services|contact)$/i', $group['title'])) {
                     if (strlen($group['title']) < 32 && ! preg_match('/service|uae|dubai/i', $group['title'])) {
                         $hero['kicker'] = $group['title'];
@@ -429,6 +621,8 @@ class GulfCut
             $rest[] = $group;
         }
 
+        $hero['heading'] = self::cleanHeading($hero['heading']);
+
         $sections = [];
         $count = count($rest);
         for ($i = 0; $i < $count; $i++) {
@@ -445,9 +639,15 @@ class GulfCut
             }
 
             if ($section['kind'] === 'cities') {
-                while (isset($rest[$i + 1]) && $rest[$i + 1]['parts'] === [] && ! self::isSectionTitle($rest[$i + 1]['title']) && strlen($rest[$i + 1]['title']) < 40) {
+                $section['after'] = [];
+                while (isset($rest[$i + 1]) && $rest[$i + 1]['title'] !== '' && ! self::isSectionTitle($rest[$i + 1]['title']) && strlen($rest[$i + 1]['title']) < 40 && ! self::hasCards($rest[$i + 1])) {
                     $i++;
                     $section['items'][] = ['title' => $rest[$i]['title'], 'text' => '', 'image' => ''];
+                    foreach ($rest[$i]['parts'] as $part) {
+                        if ($part['type'] === 'text' && trim((string) $part['text']) !== '') {
+                            $section['after'][] = $part['text'];
+                        }
+                    }
                 }
             }
 
@@ -495,6 +695,34 @@ class GulfCut
         return $groups;
     }
 
+    private static function cleanHeading(string $heading): string
+    {
+        return trim((string) preg_replace('/\s+\|\s+.*$/', '', rtrim(trim($heading), ':')));
+    }
+
+    /** @param  array{title: string, parts: array<int, array<string, mixed>>}  $group */
+    private static function hasCards(array $group): bool
+    {
+        foreach ($group['parts'] as $part) {
+            if (in_array($part['type'] ?? '', ['imagebox', 'list'], true)) {
+                return true;
+            }
+            if (($part['type'] ?? '') === 'icon' && ! self::isContactIcon($part)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /** @param  array<string, mixed>  $part */
+    private static function isContactIcon(array $part): bool
+    {
+        $label = trim((string) ($part['title'] ?? '')).trim((string) ($part['text'] ?? ''));
+
+        return $label === '' || (bool) preg_match('/^[+\d\s()-]+$/', $label) || (bool) preg_match('/^(call|contact|email|whatsapp)\b/i', $label);
+    }
+
     private static function isSectionTitle(string $title): bool
     {
         return (bool) preg_match('/what we offer|key advantage|working system|more service|why choose|application|areas we serve|frequently|30%|project with us|schedule your|contact gulf|our concrete|why concrete|benefits of|who we work|specialized|how it works|what we do/i', $title);
@@ -520,6 +748,9 @@ class GulfCut
 
         foreach ($group['parts'] as $part) {
             if (in_array($part['type'], ['icon', 'imagebox'], true)) {
+                if ($part['type'] === 'icon' && self::isContactIcon($part)) {
+                    continue;
+                }
                 $label = trim((string) ($part['title'] ?? ''));
                 $text = trim((string) ($part['text'] ?? ''));
                 if ($label === '' && $text === '') {
@@ -582,7 +813,7 @@ class GulfCut
 
         return [
             'kind' => $kind,
-            'title' => $title,
+            'title' => self::cleanHeading($title),
             'items' => $kind === 'related' ? $items : ($kind === 'cta' ? $buttons : $items),
             'notes' => $notes,
             'images' => $images,

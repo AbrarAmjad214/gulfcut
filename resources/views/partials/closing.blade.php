@@ -7,11 +7,11 @@
             <p>{{ $lead ?? 'Share the site and the opening. Gulf Cut will call you back with a time and a quotation.' }}</p>
         </div>
         <div class="closing-actions">
-            <a class="closing-link" href="tel:{{ $g::PHONE_TEL }}">
+            <a class="closing-link" href="tel:{{ $g::PHONE_TEL }}" data-track="call">
                 <strong>Call</strong>
                 <span>{{ $g::PHONE_DISPLAY }}</span>
             </a>
-            <a class="closing-link" href="https://wa.me/971505962816" target="_blank" rel="noopener">
+            <a class="closing-link" href="{{ $g::WHATSAPP }}" data-track="whatsapp" target="_blank" rel="noopener">
                 <strong>WhatsApp</strong>
                 <span>Message the crew</span>
             </a>

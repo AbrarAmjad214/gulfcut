@@ -1,9 +1,13 @@
 @extends('layouts.site')
 @php $g = \App\Support\GulfCut::class; @endphp
 
+@push('head')
+    {!! $g::heroPreload($g::photo('Concrete-wall-saw-cutting.jpeg')) !!}
+@endpush
+
 @section('content')
-<section class="page-hero" style="--hero:url('{{ $g::photo('Concrete-wall-saw-cutting.jpeg') }}')">
-    <div class="wrap" data-animate>
+<section class="page-hero" {!! $g::heroStyle($g::photo('Concrete-wall-saw-cutting.jpeg')) !!}>
+    <div class="wrap">
         @include('partials.crumbs')
         <p class="eyebrow">UAE contractor</p>
         <h1>Concrete Cutting, Wall Saw Cutting &amp; Demolition Contractor</h1>
@@ -30,7 +34,7 @@
             </ul>
         </div>
         <figure>
-            <img class="rounded" src="{{ $g::photo('Concrete-Demolition-Services.jpeg') }}" alt="Controlled concrete demolition on a Gulf Cut site" loading="lazy" decoding="async">
+            <img class="rounded" src="{{ $g::photo('Concrete-Demolition-Services.jpeg') }}" {!! $g::attrs($g::photo('Concrete-Demolition-Services.jpeg')) !!} alt="Controlled concrete demolition on a Gulf Cut site" loading="lazy" decoding="async">
         </figure>
     </div>
 </section>
@@ -43,7 +47,7 @@
         </div>
         <div class="service-grid">
             <a class="service-card light" href="{{ url('concrete-cutting-services-uae') }}">
-                <img src="{{ $g::photo('Concrete-floor-cutting.jpeg') }}" alt="Concrete floor saw cutting" loading="lazy" decoding="async">
+                <img src="{{ $g::photo('Concrete-floor-cutting.jpeg') }}" {!! $g::attrs($g::photo('Concrete-floor-cutting.jpeg')) !!} alt="Concrete floor saw cutting" loading="lazy" decoding="async">
                 <div>
                     <h3>Concrete cutting</h3>
                     <p>Diamond cutting for slabs, floors, walls and beams. Straight lines, controlled depth, and an edge the next trade can use.</p>
@@ -51,7 +55,7 @@
                 </div>
             </a>
             <a class="service-card light" href="{{ url('wall-saw-cutting') }}">
-                <img src="{{ $g::photo('Concrete-wall-saw-cutting.jpeg') }}" alt="Wall saw cutting a reinforced concrete wall" loading="lazy" decoding="async">
+                <img src="{{ $g::photo('Concrete-wall-saw-cutting.jpeg') }}" {!! $g::attrs($g::photo('Concrete-wall-saw-cutting.jpeg')) !!} alt="Wall saw cutting a reinforced concrete wall" loading="lazy" decoding="async">
                 <div>
                     <h3>Wall saw cutting</h3>
                     <p>Track saws for doorways, windows, shafts and structural openings in reinforced walls, with the cut panel supported before it is freed.</p>
@@ -59,7 +63,7 @@
                 </div>
             </a>
             <a class="service-card light" href="{{ url('concrete-demolition-services-uae') }}">
-                <img src="{{ $g::photo('Concrete-staircase-Demolition.jpeg') }}" alt="Concrete staircase cut for removal" loading="lazy" decoding="async">
+                <img src="{{ $g::photo('Concrete-staircase-Demolition.jpeg') }}" {!! $g::attrs($g::photo('Concrete-staircase-Demolition.jpeg')) !!} alt="Concrete staircase cut for removal" loading="lazy" decoding="async">
                 <div>
                     <h3>Demolition contractor</h3>
                     <p>Controlled removal of slabs, stairs, beams and cut sections. Pieces are sized so they can be carried out, not smashed through the floor.</p>
@@ -67,7 +71,7 @@
                 </div>
             </a>
             <a class="service-card light" href="{{ url('concrete-scanning') }}">
-                <img src="{{ $g::photo('Concrete-slab-3d-scanning.jpeg') }}" alt="Scanning a concrete slab before cutting" loading="lazy" decoding="async">
+                <img src="{{ $g::photo('Concrete-slab-3d-scanning.jpeg') }}" {!! $g::attrs($g::photo('Concrete-slab-3d-scanning.jpeg')) !!} alt="Scanning a concrete slab before cutting" loading="lazy" decoding="async">
                 <div>
                     <h3>Scan before the saw</h3>
                     <p>Where the slab or wall may hold rebar, conduits or post-tension cables, we scan and mark the line before any cut starts.</p>

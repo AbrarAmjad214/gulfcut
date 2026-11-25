@@ -1,9 +1,13 @@
 @extends('layouts.site')
 @php $g = \App\Support\GulfCut::class; @endphp
 
+@push('head')
+    {!! $g::heroPreload($g::photo('Concrete-beam-cutting.jpeg')) !!}
+@endpush
+
 @section('content')
-<section class="page-hero blog-hero" style="--hero:url('{{ $g::photo('Concrete-beam-cutting.jpeg') }}')">
-    <div class="wrap" data-animate>
+<section class="page-hero blog-hero" {!! $g::heroStyle($g::photo('Concrete-beam-cutting.jpeg')) !!}>
+    <div class="wrap">
         @include('partials.crumbs')
         <p class="eyebrow">Projects</p>
         <h1>Concrete Cutting Projects</h1>
@@ -16,7 +20,7 @@
         <div class="blog-grid">
             @foreach ($projects as $project)
                 <a class="blog-card" href="{{ url('projects/'.$project['slug']) }}">
-                    <img src="{{ $g::photo($project['image']) }}" alt="{{ $project['image_alt'] }}" loading="lazy" decoding="async">
+                    <img src="{{ $g::photo($project['image']) }}" {!! $g::attrs($g::photo($project['image'])) !!} alt="{{ $project['image_alt'] }}" loading="lazy" decoding="async">
                     <div>
                         <p class="blog-meta">{{ $project['location'] }}</p>
                         <h3>{{ $project['h1'] }}</h3>

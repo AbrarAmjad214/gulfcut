@@ -1,9 +1,13 @@
 @extends('layouts.site')
 @php $g = \App\Support\GulfCut::class; @endphp
 
+@push('head')
+    {!! $g::heroPreload($g::photo('Concrete-wall-saw-cutting.jpeg')) !!}
+@endpush
+
 @section('content')
-<section class="page-hero blog-hero" style="--hero:url('{{ $g::photo('Concrete-wall-saw-cutting.jpeg') }}')">
-    <div class="wrap" data-animate>
+<section class="page-hero blog-hero" {!! $g::heroStyle($g::photo('Concrete-wall-saw-cutting.jpeg')) !!}>
+    <div class="wrap">
         @include('partials.crumbs')
         <p class="eyebrow">Blog</p>
         <h1>Concrete Cutting Guides</h1>
@@ -16,7 +20,7 @@
         <div class="blog-grid">
             @foreach ($posts as $post)
                 <a class="blog-card" href="{{ url('blog/'.$post['slug']) }}">
-                    <img src="{{ $g::photo($post['image']) }}" alt="{{ $post['image_alt'] }}" loading="lazy" decoding="async">
+                    <img src="{{ $g::photo($post['image']) }}" {!! $g::attrs($g::photo($post['image'])) !!} alt="{{ $post['image_alt'] }}" loading="lazy" decoding="async">
                     <div>
                         <p class="blog-meta">{{ $post['category'] }} · {{ \Illuminate\Support\Carbon::parse($post['date'])->format('j M Y') }}</p>
                         <h3>{{ $post['h1'] }}</h3>

@@ -7,8 +7,12 @@ class Blog
     /** @return array<int, array<string, mixed>> */
     public static function all(): array
     {
-        $posts = require resource_path('data/blog.php');
-        usort($posts, fn (array $a, array $b) => strcmp($b['date'], $a['date']));
+        static $posts;
+
+        if ($posts === null) {
+            $posts = require resource_path('data/blog.php');
+            usort($posts, fn (array $a, array $b) => strcmp($b['date'], $a['date']));
+        }
 
         return $posts;
     }
@@ -99,7 +103,7 @@ class Blog
             '@type' => 'Organization',
             'name' => 'Gulf Cut UAE',
             'url' => GulfCut::SITE.'/',
-            'logo' => GulfCut::absoluteImage('cropped-logogulf-removebg-preview.png'),
+            'logo' => GulfCut::absoluteImage(GulfCut::LOGO_FILE),
         ];
     }
 

@@ -6,6 +6,7 @@ use App\Support\Blog;
 use App\Support\GulfCut;
 use App\Support\Projects;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\View\View;
 
@@ -16,7 +17,7 @@ class SiteController extends Controller
         return view('home', [
             'title' => GulfCut::titles()['home'],
             'description' => GulfCut::description('home'),
-            'ogImage' => 'Concrete-wall-saw-cutting.jpeg',
+            'ogImage' => GulfCut::OG_IMAGE,
         ]);
     }
 
@@ -54,7 +55,7 @@ class SiteController extends Controller
         return view('about', [
             'title' => GulfCut::titles()['about-us'],
             'description' => GulfCut::description('about-us'),
-            'ogImage' => 'Concrete-wall-saw-cutting.jpeg',
+            'ogImage' => GulfCut::OG_IMAGE,
             'paragraphs' => $paragraphs,
             'offers' => $offers,
             'team' => $team,
@@ -77,15 +78,19 @@ class SiteController extends Controller
             'title' => GulfCut::titles()['contact-us'],
             'description' => GulfCut::description('contact-us'),
             'ogImage' => 'Concrete-floor-cutting.jpeg',
+            'schema' => GulfCut::contactSchema(),
         ]);
     }
 
     public function contractor(): View
     {
+        $description = 'Concrete cutting and demolition contractor in Dubai and the UAE. Gulf Cut wall-saws reinforced concrete, then removes the cut panels. Call +971 50 596 2816.';
+
         return view('contractor', [
             'title' => 'Concrete Cutting & Demolition Contractor | Gulf Cut',
-            'description' => 'Concrete cutting and demolition contractor in Dubai and the UAE. Gulf Cut wall-saws reinforced concrete, then removes the cut panels. Call +971 50 596 2816.',
-            'ogImage' => 'Concrete-wall-saw-cutting.jpeg',
+            'description' => $description,
+            'ogImage' => GulfCut::OG_IMAGE,
+            'schema' => GulfCut::serviceSchema('Concrete cutting and demolition contractor', $description, '/concrete-cutting-wall-saw-demolition-contractor', 'Concrete-wall-saw-cutting.jpeg'),
         ]);
     }
 
@@ -119,7 +124,7 @@ class SiteController extends Controller
         return view('blog.index', [
             'title' => 'Concrete Cutting Blog UAE | Gulf Cut',
             'description' => 'Guides on concrete cutting, core drilling, wall sawing, wire sawing, scanning and demolition in Dubai and the UAE by Gulf Cut.',
-            'ogImage' => 'Concrete-wall-saw-cutting.jpeg',
+            'ogImage' => GulfCut::OG_IMAGE,
             'posts' => Blog::all(),
             'schema' => Blog::indexSchema(),
         ]);
@@ -136,6 +141,7 @@ class SiteController extends Controller
             'ogImage' => $post['image'],
             'ogType' => 'article',
             'published' => $post['date'],
+            'modified' => $post['updated'] ?? $post['date'],
             'post' => $post,
             'related' => Blog::related($slug),
             'schema' => Blog::postSchema($post),
@@ -149,12 +155,53 @@ class SiteController extends Controller
 
         $heroFile = basename((string) parse_url($page['hero']['image'], PHP_URL_PATH));
 
+        $description = GulfCut::description($slug);
+        $label = data_get(collect(GulfCut::menu())->firstWhere('slug', $slug), 'label', $page['hero']['heading']);
+
         return view('page', [
             'page' => $page,
             'title' => $page['title'],
-            'description' => GulfCut::description($slug),
+            'description' => $description,
             'ogImage' => $heroFile,
+            'preset' => $label,
+            'schema' => GulfCut::serviceSchema($label, $description, '/'.$slug, $heroFile),
         ]);
+    }
+
+    public function sitemap(): Response
+    {
+        $stamp = fn (string $file) => date('Y-m-d', (int) filemtime($file));
+        $views = fn (string $view) => $stamp(resource_path('views/'.$view.'.blade.php'));
+        $widgets = $stamp(resource_path('data/widgets.json'));
+        $layout = $views('layouts/site');
+        $latest = fn (string ...$dates) => max($dates);
+
+        $urls = [
+            ['/', $latest($views('home'), $layout)],
+            ['/about-us', $latest($views('about'), $widgets)],
+            ['/our-services', $latest($views('services'), $layout)],
+            ['/contact-us', $latest($views('contact'), $layout)],
+            ['/concrete-cutting-wall-saw-demolition-contractor', $views('contractor')],
+            ['/blog', max(array_column(Blog::all(), 'updated'))],
+        ];
+        foreach (Blog::all() as $post) {
+            $urls[] = ['/blog/'.$post['slug'], $post['updated'] ?? $post['date']];
+        }
+        $urls[] = ['/projects', Projects::date()];
+        foreach (Projects::all() as $project) {
+            $urls[] = ['/projects/'.$project['slug'], $project['updated'] ?? $project['date'] ?? Projects::date()];
+        }
+        foreach (GulfCut::servicePages() as $slug) {
+            $urls[] = ['/'.$slug, $latest($widgets, $views('page'))];
+        }
+
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>'."\n".'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'."\n";
+        foreach ($urls as [$path, $date]) {
+            $xml .= '    <url><loc>'.e(GulfCut::canonical($path)).'</loc><lastmod>'.e($date).'</lastmod></url>'."\n";
+        }
+        $xml .= '</urlset>'."\n";
+
+        return response($xml, 200, ['Content-Type' => 'application/xml; charset=UTF-8']);
     }
 
     public function send(Request $request)

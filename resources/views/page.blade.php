@@ -4,9 +4,13 @@
     $title = $page['title'];
 @endphp
 
+@push('head')
+    {!! $g::heroPreload($page['hero']['image']) !!}
+@endpush
+
 @section('content')
-<section class="page-hero" style="--hero:url('{{ $page['hero']['image'] }}')">
-    <div class="wrap hero-copy" data-animate>
+<section class="page-hero" {!! $g::heroStyle($page['hero']['image']) !!}>
+    <div class="wrap hero-copy">
         @include('partials.crumbs')
         <p class="eyebrow">{{ $page['hero']['kicker'] }}</p>
         <h1>{{ $page['hero']['heading'] }}</h1>
@@ -31,14 +35,7 @@
 @endif
 
 @foreach ($page['sections'] as $section)
-    @if ($section['kind'] === 'promo')
-        <section class="promo">
-            <div class="wrap" data-animate>
-                <h2>{{ $section['title'] }}</h2>
-                <a class="btn" href="{{ route('contact') }}">Claim Now!</a>
-            </div>
-        </section>
-    @elseif ($section['kind'] === 'cta')
+    @if ($section['kind'] === 'cta')
         @include('partials.closing', [
             'heading' => $section['title'],
             'lead' => $section['notes'][0] ?? 'Schedule a visit and Gulf Cut will quote the cut.',
@@ -66,6 +63,9 @@
                         <div data-animate>{{ $item['title'] }}</div>
                     @endforeach
                 </div>
+                @foreach ($section['after'] ?? [] as $note)
+                    <p class="center">{{ $note }}</p>
+                @endforeach
             </div>
         </section>
     @else
@@ -83,7 +83,7 @@
                             @foreach ($section['items'] as $item)
                                 <article class="icon-card" data-animate>
                                     @if ($item['image'])
-                                        <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" loading="lazy" decoding="async">
+                                        <img src="{{ $item['image'] }}" {!! $g::attrs($item['image']) !!} alt="{{ $item['title'] }}" loading="lazy" decoding="async">
                                     @endif
                                     <h3>{{ $item['title'] }}</h3>
                                     @if ($item['text'])<p>{{ $item['text'] }}</p>@endif
@@ -109,7 +109,7 @@
                 </div>
                 @if ($section['images'])
                     <figure data-animate="right">
-                        <img class="rounded" src="{{ $section['images'][0] }}" alt="{{ $section['title'] ?: 'Gulf Cut concrete cutting' }}" loading="lazy" decoding="async">
+                        <img class="rounded" src="{{ $section['images'][0] }}" {!! $g::attrs($section['images'][0]) !!} alt="{{ $section['title'] ?: 'Gulf Cut concrete cutting' }}" loading="lazy" decoding="async">
                     </figure>
                 @endif
             </div>
@@ -119,7 +119,7 @@
 
 @include('partials.lead-band', [
     'heading' => 'Get a quote for this job',
-    'preset' => data_get(collect(\App\Support\GulfCut::menu())->firstWhere('slug', request()->route('slug')), 'label', ''),
+    'preset' => $preset,
     'source' => url()->current(),
 ])
 @endsection
