@@ -49,5 +49,7 @@
     </div>
 </section>
 
+@include('partials.google-profile', ['variant' => 'band'])
+
 @include('partials.lead-band', ['heading' => 'Not sure which service you need?'])
 @endsection

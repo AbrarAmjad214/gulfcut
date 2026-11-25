@@ -28,6 +28,7 @@
             <p>{{ $g::ADDRESS }}</p>
             <p><a href="mailto:{{ $g::EMAIL }}">{{ $g::EMAIL }}</a></p>
             <p><a href="tel:{{ $g::PHONE_TEL }}">{{ $g::PHONE_DISPLAY }}</a></p>
+            <a class="footer-google" href="{{ $g::GBP_URL }}" target="_blank" rel="noopener" data-track="google-profile">Find us on Google Maps →</a>
         </div>
     </div>
     <div class="wrap footer-copy">© {{ date('Y') }} Gulf Cut UAE. All rights reserved.</div>

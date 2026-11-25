@@ -22,7 +22,13 @@ class GulfCut
 
     public const OG_IMAGE = 'og-gulfcut.jpg';
 
-    public const MAP_QUERY = 'Al Qouz Fourth, Al Quoz, Dubai, United Arab Emirates';
+    /** Google Business Profile: name exactly as listed, and the stable CID link to the listing. */
+    public const GBP_NAME = 'Gulfcut Core & Concrete Cutting';
+
+    public const GBP_URL = 'https://maps.google.com/?cid=1094418168651678183';
+
+    /** Centre of the listing's map view (a service-area listing, so not a street address). */
+    private const GBP_CENTER = '25.3199447,55.5462772';
 
     /** @var array<string, array{0: int, 1: int}|null> */
     private static array $sizes = [];
@@ -35,14 +41,16 @@ class GulfCut
         return asset('images/'.self::LOGO_FILE);
     }
 
+    /** Link to the Google Business Profile (opens the listing with reviews and photos). */
     public static function mapUrl(): string
     {
-        return 'https://www.google.com/maps/search/?api=1&query='.rawurlencode(self::MAP_QUERY);
+        return self::GBP_URL;
     }
 
+    /** Embeddable map of the Google Business Profile listing. */
     public static function mapEmbed(): string
     {
-        return 'https://maps.google.com/maps?q='.rawurlencode(self::MAP_QUERY).'&z=14&output=embed';
+        return 'https://maps.google.com/maps?q='.rawurlencode(self::GBP_NAME).'&ll='.self::GBP_CENTER.'&z=10&output=embed';
     }
 
     /** @return array{0: int, 1: int}|null */
@@ -386,9 +394,12 @@ class GulfCut
     /** @return array<string, array<int, string>> */
     private static function sameAs(): array
     {
-        $links = array_values(array_filter((array) config('services.site.same_as', [])));
+        $links = array_values(array_unique(array_filter(array_merge(
+            [self::GBP_URL],
+            (array) config('services.site.same_as', [])
+        ))));
 
-        return $links === [] ? [] : ['sameAs' => $links];
+        return ['sameAs' => $links];
     }
 
     /** @return array<string, string> */
@@ -425,7 +436,7 @@ class GulfCut
             '@type' => 'ContactPage',
             'name' => 'Contact Gulf Cut',
             'url' => self::canonical('/contact-us'),
-            'about' => self::provider() + [
+            'about' => self::provider() + self::sameAs() + [
                 'email' => self::EMAIL,
                 'hasMap' => self::mapUrl(),
                 'address' => [

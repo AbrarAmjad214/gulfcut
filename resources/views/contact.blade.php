@@ -40,18 +40,26 @@
             </ul>
             <p>Not sure which method fits? Read <a href="{{ url('blog/wall-saw-vs-floor-saw-uae') }}">wall saw or floor saw</a>, or see <a href="{{ route('services') }}">all services</a>.</p>
         </div>
-        <div class="map-card">
-            <iframe src="{{ $g::mapEmbed() }}" title="Gulf Cut location in Al Quoz, Dubai" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
-            <div>
-                <strong>Gulf Cut UAE</strong>
-                <span>{{ $g::ADDRESS }}</span>
-                <a href="{{ $g::mapUrl() }}" target="_blank" rel="noopener">Open in Google Maps</a>
-            </div>
+        <div class="office-card">
+            <p class="eyebrow">Office</p>
+            <h3>Gulf Cut UAE</h3>
+            <dl class="gbp-facts">
+                <div><dt>Address</dt><dd>{{ $g::ADDRESS }}</dd></div>
+                <div><dt>Phone</dt><dd><a href="tel:{{ $g::PHONE_TEL }}" data-track="call">{{ $g::PHONE_DISPLAY }}</a></dd></div>
+                <div><dt>WhatsApp</dt><dd><a href="{{ $g::WHATSAPP }}" target="_blank" rel="noopener" data-track="whatsapp">Message the crew</a></dd></div>
+                <div><dt>Email</dt><dd><a href="mailto:{{ $g::EMAIL }}" data-track="email">{{ $g::EMAIL }}</a></dd></div>
+                <div><dt>Google</dt><dd><a href="{{ $g::GBP_URL }}" target="_blank" rel="noopener" data-track="google-profile">{{ $g::GBP_NAME }}</a></dd></div>
+            </dl>
         </div>
     </div>
 </section>
 
-<section class="section section-paper">
+@include('partials.google-profile', [
+    'heading' => 'Gulf Cut on Google Maps',
+    'tone' => 'section-paper',
+])
+
+<section class="section">
     <div class="wrap">
         <div class="section-head">
             <p class="eyebrow">Coverage</p>

@@ -117,6 +117,8 @@
     @endif
 @endforeach
 
+@include('partials.google-profile', ['variant' => 'band'])
+
 @include('partials.lead-band', [
     'heading' => 'Get a quote for this job',
     'preset' => $preset,

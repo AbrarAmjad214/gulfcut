@@ -325,8 +325,11 @@
     </div>
 </section>
 
-{{-- 12. Projects --}}
-<section class="section">
+{{-- 12. Google Business Profile --}}
+@include('partials.google-profile')
+
+{{-- 13. Projects --}}
+<section class="section section-paper">
     <div class="wrap">
         <div class="section-head split-head" data-animate>
             <div>
@@ -354,8 +357,8 @@
     </div>
 </section>
 
-{{-- 13. Blog --}}
-<section class="section section-paper">
+{{-- 14. Blog --}}
+<section class="section">
     <div class="wrap">
         <div class="section-head split-head" data-animate>
             <div>
@@ -383,7 +386,7 @@
     </div>
 </section>
 
-{{-- 14. Quote --}}
+{{-- 15. Quote --}}
 @include('partials.lead-band', [
     'heading' => 'Reach Us',
     'lead' => 'Looking for concrete cutting, demolition, or core drilling in the UAE? Send the site details and Gulf Cut will call you back with a quotation.',

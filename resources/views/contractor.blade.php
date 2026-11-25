@@ -119,6 +119,8 @@
     </div>
 </section>
 
+@include('partials.google-profile', ['variant' => 'band'])
+
 @include('partials.lead-band', [
     'heading' => 'Book the cutting and demolition crew',
     'lead' => 'Send the drawing and a phone number. Gulf Cut will call you back about concrete cutting, wall saw cutting or demolition.',
