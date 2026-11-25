@@ -32,11 +32,30 @@ class Blog
     /** @return array<int, array<string, mixed>> */
     public static function related(string $slug, int $limit = 3): array
     {
-        return array_values(array_slice(
-            array_filter(self::all(), fn (array $post) => $post['slug'] !== $slug),
-            0,
-            $limit
-        ));
+        $others = array_values(array_filter(self::all(), fn (array $post) => $post['slug'] !== $slug));
+        $current = self::find($slug);
+        if ($current === null) {
+            // No current post (home page): newest post from each category first, for variety.
+            $seen = [];
+            $first = [];
+            $later = [];
+            foreach ($others as $post) {
+                if (isset($seen[$post['category']])) {
+                    $later[] = $post;
+                } else {
+                    $seen[$post['category']] = true;
+                    $first[] = $post;
+                }
+            }
+
+            return array_slice(array_merge($first, $later), 0, $limit);
+        }
+
+        // Same category first (topic cluster), then the newest of the rest.
+        $same = array_filter($others, fn (array $post) => $post['category'] === $current['category']);
+        $rest = array_filter($others, fn (array $post) => $post['category'] !== $current['category']);
+
+        return array_slice(array_values(array_merge($same, $rest)), 0, $limit);
     }
 
     public static function indexSchema(): string

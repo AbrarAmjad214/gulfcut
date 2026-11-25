@@ -305,4 +305,226 @@ return [
             ['q' => 'Is this the same as soft stripping a fit-out?', 'a' => 'No. This is structural concrete: slabs, stairs, walls and beams. Partitions and ceilings are a different trade.'],
         ],
     ],
+    [
+        'slug' => 'wall-core-cutting-dubai',
+        'title' => 'Wall Core Cutting Dubai: Ducts, Pipes & Sleeves | Gulf Cut',
+        'h1' => 'Wall Core Cutting in Dubai',
+        'description' => 'How wall core cutting works in Dubai: hole sizes, shear and basement walls, water control and what to check before Gulf Cut drills through a concrete wall.',
+        'date' => '2026-11-25',
+        'updated' => '2026-11-25',
+        'image' => 'Concrete-wall-core-cutting.jpeg',
+        'image_alt' => 'Diamond core drill fixed to a reinforced concrete wall',
+        'category' => 'Core Drilling',
+        'excerpt' => 'Round openings through concrete walls for ducts, pipes and cable sleeves, and the checks that keep the wall and the room behind it safe.',
+        'service' => 'concrete-wall-core-cutting',
+        'service_label' => 'Concrete wall core cutting',
+        'sections' => [
+            [
+                'h2' => 'What wall core cutting is used for',
+                'paragraphs' => [
+                    'Wall core cutting drills a round hole straight through a concrete or block wall. In Dubai fit-outs and retrofits it is how a new kitchen extract, a condensate line, a chilled-water pipe or a cable tray gets from one room to the next when the wall was built without a sleeve.',
+                    'The drill rig is anchored or vacuum-fixed to the wall face and a diamond barrel cuts the circle. The concrete comes out as one solid core, so the edge is clean enough to take a sleeve, a fire collar or sealant without patching.',
+                ],
+                'list' => [
+                    'Kitchen and toilet extract ducts',
+                    'Plumbing and drainage pipes',
+                    'Chilled-water and condensate lines',
+                    'Cable and data sleeves between rooms',
+                    'Fire-sprinkler mains through walls',
+                    'Ventilation for plant and generator rooms',
+                ],
+            ],
+            [
+                'h2' => 'Which walls need extra care',
+                'paragraphs' => [
+                    'Not every wall is the same job. A partition wall can usually take a hole wherever the services need it. A shear wall, a core wall around a lift or stair, or a basement retaining wall is part of the structure, and the hole size and position should come from the structural engineer, not from the site.',
+                    'Basement walls add another question: what is on the other side. A hole through a retaining wall can let in ground water if the waterproofing is not detailed, so the sleeve and the seal need to be decided before the core is cut.',
+                ],
+                'figure' => ['image' => 'Concrete-wall-core-cutting.jpeg', 'alt' => 'Core drilling through a reinforced concrete wall for a service pipe'],
+            ],
+            [
+                'h2' => 'Scan the wall before the drill',
+                'paragraphs' => [
+                    'Walls hide more than slabs do. Conduits for switches and sockets run vertically through them, and in older buildings nobody has an accurate drawing of where. GPR concrete scanning marks the rebar and the embedded services, so the hole can move a few centimetres and miss them.',
+                    'If the core does hit a main bar, the engineer decides whether the hole stays or moves. That decision is easier before drilling than after.',
+                ],
+                'links' => [
+                    ['slug' => 'concrete-scanning', 'label' => 'GPR scanning before coring'],
+                    ['slug' => 'concrete-wall-core-cutting', 'label' => 'Concrete wall core cutting service'],
+                ],
+            ],
+            [
+                'h2' => 'Water, slurry and the room behind',
+                'paragraphs' => [
+                    'Diamond drilling uses water to cool the bit and keep the dust down. On a wall the slurry runs down the face, so the floor is protected and the water is collected rather than left to soak into finishes or reach electrics.',
+                    'The room on the far side matters just as much. When the core breaks through, it needs to be caught, and anything fragile behind the wall should be moved or covered before drilling starts.',
+                ],
+            ],
+            [
+                'h2' => 'What to send for a quote',
+                'paragraphs' => [
+                    'Send the hole diameter, the number of holes, the wall thickness and type, and the height above the floor. A photo of both sides of the wall saves a site visit for simple jobs.',
+                    'Gulf Cut drills wall cores across Dubai and the UAE from Al Quoz. Call +971 50 596 2816 or send the drawing to info@gulfcut.ae.',
+                ],
+                'links' => [
+                    ['slug' => 'core-cutting-services-uae', 'label' => 'All core cutting services'],
+                    ['slug' => 'concrete-slab-core-cutting', 'label' => 'Slab core cutting'],
+                    ['slug' => 'concrete-beam-core-cutting', 'label' => 'Beam core cutting'],
+                    ['slug' => 'contact-us', 'label' => 'Request a quote'],
+                ],
+            ],
+        ],
+        'faqs' => [
+            ['q' => 'How thick a wall can you core through?', 'a' => 'Standard barrels handle the usual building walls, and extension barrels go deeper for thick basement or core walls. Tell us the thickness and we will bring the right length.'],
+            ['q' => 'Can you core a shear wall?', 'a' => 'Yes, when the structural engineer has approved the hole size and position. We scan first so the core avoids the main bars and embedded services where possible.'],
+            ['q' => 'Will water from the drill damage the room?', 'a' => 'We protect the floor, collect the slurry and cover finishes below and behind the hole. Tell us about sensitive areas such as electrical rooms before the visit.'],
+            ['q' => 'Do you fit the sleeve or fire collar?', 'a' => 'We cut the opening to the size the MEP drawing asks for. The sleeve, collar and sealing are usually fitted by the MEP or fire-stopping contractor.'],
+        ],
+    ],
+    [
+        'slug' => 'beam-core-cutting-guide',
+        'title' => 'Coring Through a Concrete Beam: What to Check | Gulf Cut',
+        'h1' => 'Core Cutting Through Concrete Beams',
+        'description' => 'Beam core cutting in Dubai and the UAE: why a hole in a beam needs engineering approval, where it usually goes, scanning the steel, and how Gulf Cut drills it.',
+        'date' => '2026-11-25',
+        'updated' => '2026-11-25',
+        'image' => 'Concrete-beam-core-cutting.jpeg',
+        'image_alt' => 'Diamond core drill set up against a reinforced concrete beam',
+        'category' => 'Core Drilling',
+        'excerpt' => 'A hole through a beam takes material out of the structure. What the engineer checks, where the hole tends to go, and how the core is drilled.',
+        'service' => 'concrete-beam-core-cutting',
+        'service_label' => 'Concrete beam core cutting',
+        'sections' => [
+            [
+                'h2' => 'Why a beam is different',
+                'paragraphs' => [
+                    'Beam core cutting is the same diamond drilling used on slabs and walls, but the element is doing more work. A beam carries the slab above it to the columns, and the steel inside it is placed exactly where that load needs it. A core through the beam removes concrete and can cut through bars.',
+                    'That is why a beam core should be on a drawing the structural engineer has seen. Gulf Cut drills the hole; the engineer decides whether the beam can take it, at what size, and where.',
+                ],
+            ],
+            [
+                'h2' => 'Where the hole usually goes',
+                'paragraphs' => [
+                    'Every beam is checked on its own, but engineers tend to look for the same things. Holes are usually kept away from the ends of the beam near the columns, where shear is highest, and placed around the middle of the beam depth rather than close to the top or bottom where the main bars sit.',
+                    'Large holes or holes close together may need strengthening around them. Again, that is the engineer’s call, and it is easier to make before the drill is on the beam.',
+                ],
+                'list' => [
+                    'Hole diameter compared with the beam depth',
+                    'Distance from the column face and supports',
+                    'Height of the hole within the beam',
+                    'Spacing between neighbouring holes',
+                    'Whether main bars or links will be cut',
+                ],
+            ],
+            [
+                'h2' => 'Scan the steel first',
+                'paragraphs' => [
+                    'GPR concrete scanning shows the bottom bars, the top bars and the links before the core starts. With the steel marked on the face of the beam, the hole can often slide between links rather than through them.',
+                    'In post-tensioned structures scanning is not optional. A core must never cut a tendon, so the tendon profile has to be located and marked before any drilling on that beam or slab.',
+                ],
+                'figure' => ['image' => 'Concrete-slab-3d-scanning.jpeg', 'alt' => 'Scanning concrete to locate reinforcement before core drilling'],
+                'links' => [
+                    ['slug' => 'concrete-scanning', 'label' => 'GPR concrete scanning'],
+                    ['slug' => 'concrete-slab-3d-scanning', 'label' => 'Slab 3D scanning'],
+                ],
+            ],
+            [
+                'h2' => 'How Gulf Cut drills a beam core',
+                'paragraphs' => [
+                    'The rig is anchored to the beam side or to a frame, levelled so the hole runs straight, and the diamond barrel cuts through on water. The core is supported as it breaks through so it does not drop onto the floor or the ceiling below.',
+                    'Once the core is out, the opening is left clean for the MEP sleeve. If the engineer has asked for any strengthening around the hole, that work follows before the services go in.',
+                ],
+                'links' => [
+                    ['slug' => 'concrete-beam-core-cutting', 'label' => 'Concrete beam core cutting service'],
+                    ['slug' => 'concrete-wall-core-cutting', 'label' => 'Wall core cutting'],
+                    ['slug' => 'concrete-slab-core-cutting', 'label' => 'Slab core cutting'],
+                    ['slug' => 'concrete-beam-cutting', 'label' => 'Concrete beam cutting'],
+                ],
+            ],
+            [
+                'h2' => 'What to send',
+                'paragraphs' => [
+                    'Send the approved drawing with the hole marked, the beam size, the hole diameter and whether the building is post-tensioned. Gulf Cut covers Dubai and the UAE from Al Quoz: call +971 50 596 2816 or email info@gulfcut.ae.',
+                ],
+            ],
+        ],
+        'faqs' => [
+            ['q' => 'Can you core through any beam?', 'a' => 'Only where the structural engineer has approved the size and position. We drill to the approved drawing and scan first to avoid cutting steel where we can.'],
+            ['q' => 'What if the core hits a bar?', 'a' => 'We stop and report it. The engineer decides whether the hole can continue, move, or needs strengthening.'],
+            ['q' => 'Is beam coring different from beam cutting?', 'a' => 'Yes. Coring drills a round hole for a service through the beam. Beam cutting saws through the beam to shorten it, remove it or make a structural change.'],
+            ['q' => 'Do you drill in post-tensioned buildings?', 'a' => 'Yes, after the tendons are located and marked by scanning. We never drill a post-tensioned element blind.'],
+        ],
+    ],
+    [
+        'slug' => 'slab-core-cutting-guide',
+        'title' => 'Concrete Slab Core Cutting Guide UAE | Gulf Cut',
+        'h1' => 'Concrete Slab Core Cutting',
+        'description' => 'Slab core cutting in Dubai and the UAE for drains, risers and sleeves: hole positions, scanning for cables and tendons, protecting the floor below and quoting.',
+        'date' => '2026-11-25',
+        'updated' => '2026-11-25',
+        'image' => 'Concrete-slab-core-cutting.jpeg',
+        'image_alt' => 'Diamond core drill cutting a round opening in a concrete slab',
+        'category' => 'Core Drilling',
+        'excerpt' => 'Vertical openings through a floor slab for drains, risers and sleeves, and how to get them drilled without surprises on the floor below.',
+        'service' => 'concrete-slab-core-cutting',
+        'service_label' => 'Concrete slab core cutting',
+        'sections' => [
+            [
+                'h2' => 'Where slab cores are needed',
+                'paragraphs' => [
+                    'Slab core cutting is the most common core drilling job on a Dubai site. Every new bathroom, kitchen, plant room or shop fit-out needs pipes and cables to pass from one floor to the next, and the slab is in the way.',
+                    'The rig is fixed to the slab, levelled, and a diamond barrel cuts a round hole straight down. The core is removed in one piece, which leaves a clean edge for the sleeve and fire stopping.',
+                ],
+                'list' => [
+                    'Floor drains and soil stacks',
+                    'Water supply and drainage risers',
+                    'Electrical and data risers',
+                    'Sprinkler and fire-fighting pipes',
+                    'Condensate and refrigerant lines',
+                ],
+            ],
+            [
+                'h2' => 'Check the floor below first',
+                'paragraphs' => [
+                    'The hole comes out in the ceiling of the room underneath. Before drilling, someone has to know what is there: a false ceiling, a light fitting, a cable tray or an occupied shop. The core and the slurry are caught below so nothing drops into the space.',
+                    'In occupied buildings the noise and the water also need planning. Working hours and access to the lower floor should be agreed in the quotation.',
+                ],
+            ],
+            [
+                'h2' => 'Scan for cables and tendons',
+                'paragraphs' => [
+                    'Slabs carry conduits for the floor below, and many towers in the UAE use post-tensioned slabs. Cutting a live conduit is a problem; cutting a tendon is a serious one. Slab scanning before slab core cutting marks the steel, the tendons and the services so each hole lands in clear concrete.',
+                ],
+                'figure' => ['image' => 'Concrete-slab-3d-scanning.jpeg', 'alt' => 'Scanning a concrete slab before core drilling'],
+                'links' => [
+                    ['slug' => 'concrete-slab-3d-scanning', 'label' => 'Slab 3D scanning'],
+                    ['slug' => 'concrete-scanning', 'label' => 'GPR concrete scanning'],
+                ],
+            ],
+            [
+                'h2' => 'Several holes or one large opening?',
+                'paragraphs' => [
+                    'A few round holes are a coring job. A large square opening for a shaft or a stair is usually saw-cut instead: the corners are cored, then a floor saw or wall saw cuts the straight sides and the panel is lifted out.',
+                    'If the layout has many holes close together, it can be cleaner to cut one opening. Send the drawing and Gulf Cut will suggest the method.',
+                ],
+                'links' => [
+                    ['slug' => 'concrete-slab-core-cutting', 'label' => 'Concrete slab core cutting service'],
+                    ['slug' => 'concrete-wall-core-cutting', 'label' => 'Wall core cutting'],
+                    ['slug' => 'concrete-beam-core-cutting', 'label' => 'Beam core cutting'],
+                    ['slug' => 'floor-saw-cutting', 'label' => 'Floor saw cutting for larger openings'],
+                ],
+            ],
+            [
+                'h2' => 'What to send for a quote',
+                'paragraphs' => [
+                    'Send the number of holes, the diameters, the slab thickness, the floor level and what is underneath. Gulf Cut drills slab cores across Dubai and the UAE: call +971 50 596 2816 or email info@gulfcut.ae.',
+                ],
+            ],
+        ],
+        'faqs' => [
+            ['q' => 'How many holes can you drill in a day?', 'a' => 'It depends on diameter, slab thickness, access and the floor below. Send the drawing and we will give a realistic plan in the quotation.'],
+            ['q' => 'Do I need to close the floor below?', 'a' => 'The area directly under each hole needs to be clear and protected while we drill. We agree access and timing with you first.'],
+            ['q' => 'Can you drill a post-tensioned slab?', 'a' => 'Yes, after the tendons are located and marked by scanning. Holes are positioned in clear concrete between them.'],
+        ],
+    ],
 ];

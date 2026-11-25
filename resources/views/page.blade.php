@@ -85,7 +85,7 @@
                                     @if ($item['image'])
                                         <img src="{{ $item['image'] }}" {!! $g::attrs($item['image']) !!} alt="{{ $item['title'] }}" loading="lazy" decoding="async">
                                     @endif
-                                    <h3>{{ $item['title'] }}</h3>
+                                    <h3>{!! $g::link($item['title']) !!}</h3>
                                     @if ($item['text'])<p>{{ $item['text'] }}</p>@endif
                                 </article>
                             @endforeach
